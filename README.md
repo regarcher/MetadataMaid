@@ -45,7 +45,7 @@ Unfortunately, private Reports cannot be deleted or moved without logging in as 
 ```
 
 ## Installation
-<a href="https://githubsfdeploy.herokuapp.com?owner=regarcher&repo=MetadataMaid">
+<a href="https://githubsfdeploy.herokuapp.com?owner=regarcher&repo=MetadataMaid&ref=main">
   <img alt="Deploy to Salesforce"
        src="https://raw.githubusercontent.com/afawcett/githubsfdeploy/master/deploy.png">
 </a>
