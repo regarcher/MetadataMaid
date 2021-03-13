@@ -34,9 +34,6 @@ Deletions of Dashboards are done via the REST API.  These are performed one at a
 ## Code Test Classes
 Note that we can not insert a Report or a Dashboard and thus it is very difficult to perform assertions.  The test classes are only here to provide code coverage.
 
-## Post Deployment Steps
-reggie, add any needed configuration steps here...
-
 ## Future Dreams
 Right now I'm only offering you the Private Dashboard Maid, but yes, I hope to add more tabs to the Application.  
 Unfortunately, private Reports cannot be deleted or moved without logging in as the user.  I did not find an easy way to programatically login as a user and thus I do not intend to provide the ability to delete private Reports.
@@ -49,3 +46,9 @@ Unfortunately, private Reports cannot be deleted or moved without logging in as 
   <img alt="Deploy to Salesforce"
        src="https://raw.githubusercontent.com/afawcett/githubsfdeploy/master/deploy.png">
 </a>
+
+## Post Deployment Steps
+So, it seems that the free deployment tool you see above isn't working propery.
+You have a couple options.
+1. You can 
+2. You can
