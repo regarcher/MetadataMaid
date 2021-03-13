@@ -32,7 +32,7 @@ Note that we can not insert a report or a dashboard and thus it is very difficul
 
 ## Future Dreams
 Yes, I hope to add more tabs to the Application.  
-Unfortunately I did not find an easy way to login as an inactive user and thus I do not intend to provide the ability to delete private Reports.
+Unfortunately, private Reports cannot be deleted or moved without logging in as the user.  I did not find an easy way to programatically login as an inactive user and thus I do not intend to provide the ability to delete private Reports.
 
 ```apex
 ```
