@@ -38,7 +38,7 @@ Note that we can not insert a Report or a Dashboard and thus it is very difficul
 reggie, add any needed configuration steps here...
 
 ## Future Dreams
-Yes, I hope to add more tabs to the Application.  
+Right now I'm only offering you the Private Dashboard Maid, but yes, I hope to add more tabs to the Application.  
 Unfortunately, private Reports cannot be deleted or moved without logging in as the user.  I did not find an easy way to programatically login as a user and thus I do not intend to provide the ability to delete private Reports.
 
 ```apex
