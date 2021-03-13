@@ -1,5 +1,5 @@
 ## How MetdataMaid Helps You
-As you probably know, Salesforce has a Mass Delete Records -> Mass Delete Reports function that is somewhat useful, but some deletes can be blocked from deletion if they’re included in a Dashboard.  The next step you might take from there is to find Dashboards that haven’t been run in a very long time.  See the section below discussing Deleting Active Dashboards for more tips on that.  Once you’ve cleaned those up you may see that inactive users have private dashboards.  In order to delete those, you have to:
+As you probably know, Salesforce has a Mass Delete Records -> Mass Delete Reports function that is somewhat useful, but some deletes can be blocked from deletion if they’re included in a Dashboard.  The next step you might take from there is to find Dashboards that haven’t been run in a very long time.  See the section below discussing Deleting Active Dashboards for more tips on that.  Once you’ve cleaned those up you may see that inactive users have private dashboards that are blocking you.  In order to delete those, you have to:
     
     1. Find the inactive users that have private Dashboards
     2. Launch the user record
