@@ -48,7 +48,7 @@ Unfortunately, private Reports cannot be deleted or moved without logging in as 
 </a>
 
 ## Post Deployment Steps
-So, it seems that the free deployment tool you see above isn't working propery.
+So, it seems that the free deployment tool you see above isn't working propery in that it doesn't deploy Applications or Tabs.
 You have a couple options.
-1. You can 
+1. You can deploy with the code above and go to the Lightning App Builder and create a Lightning App Page named "Private Dashboard Maid" an application named "Metadata Maid" which includes the tab.  This tab 
 2. You can
