@@ -15,13 +15,21 @@ And repeat that over and over until you’ve deleted them all.
 This tool will list all private Dashboards owned by inactive users and delete them at your command.
 
 ## User's Guide
+
 **Data Scope**
+
 Only inactive user's private dashboards are listed.  I'm only offering 20 records at a time for various reasons.  You should be able to get through the whole list in under 5 minutes.
+
 **Column Sorting**
+
 Many columns are sortable.  Sorting is performed on the database.  I decided not to offer filtering as I hope you have a limited data set.
+
 **Links**
+
 User Name is a link.  Launching it might tell you more about the user such as inactivated date.  Adding a link for the private dashboard wouldn't be launchable as you are currently a System Administrator and would have to activate and login as a user to see it.
+
 **Recycle Bin**
+
 Deleted dashboards can be recovered from the Recycle Bin within 15 days of deletion.
 
 ## Code Design
