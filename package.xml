@@ -9,7 +9,7 @@
         <name>ApexClass</name>
     </types>
     <types>
-        <members>*</members>
+        <members>GetSessionIdVF</members>
         <name>ApexPage</name>
     </types>
     <types>
