@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
-        <members>*</members>
+        <members>DashboardManager</members>
+        <members>DashboardManagerTest</members>
+        <members>SfdcRest</members>
+        <members>SfdcRestTest</members>
+        <members>MetaMaidHttpCalloutMock</members>
         <name>ApexClass</name>
     </types>
     <types>
@@ -9,15 +13,15 @@
         <name>ApexPage</name>
     </types>
     <types>
-        <members>*</members>
+        <members>Metadata_Maid</members>
         <name>CustomApplication</name>
     </types>
     <types>
-        <members>*</members>
+        <members>Private_Dashboard_Maid</members>
         <name>CustomTab</name>
     </types>
     <types>
-        <members>*</members>
+        <members>deletePrivateDashboards</members>
         <name>LightningComponentBundle</name>
     </types>
     <version>51.0</version>
