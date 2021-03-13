@@ -1,0 +1,29 @@
+<!--deletePrivateDashboards.html-->
+<template>
+    <lightning-button class="slds-m-top_small" label="Delete Selected" onclick={handleDeletePrivateClick} 
+        disabled={disableButton}></lightning-button>
+    <div style="height: 600px;">
+        <template if:false={error}>
+            <p><lightning-formatted-text value={recordCountMessage} ></lightning-formatted-text></p>
+            <lightning-datatable data={dashboardList} columns={columns} 
+                key-field="DashboardId" 
+                onrowselection={processSelectedRecords}   
+                sorted-by={sortBy}
+                sorted-direction={sortDirection}
+                onsort={handleSortdata}>
+            </lightning-datatable>
+           
+        </template>
+        <template if:true={error}>
+            {error}
+        </template>
+    </div>    
+    <div class="slds-p-around_medium lgc-bg">
+        <br>Purpose<lightning-helptext content="The Mass Delete Records tool (launched via Setup) can be blocked from deleting public reports if they 
+        are referenced in an inactive user's private dashboard.  This tool simplifies the deletion of inactive user's private dashboards. "></lightning-helptext>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Data Scope<lightning-helptext content="Only inactive user's private dashboards are listed.  I'm only offering 20 records at a time for various reasons.  You should be able to get through the whole list in under 5 minutes."></lightning-helptext>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Column Sorting<lightning-helptext content="Many columns are sortable.  Sorting is performed on the database.  I decided not to offer filtering as I hope you have a limited data set"></lightning-helptext>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Links<lightning-helptext content="User Name is a link.  This might tell you more like inactivated date.  Adding a link for the private dashboard wouldn't be launchable as you are currently a System Administrator and would have to activate and login as a user to see it."></lightning-helptext>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Recycle Bin<lightning-helptext content="Deleted dashboards can be recovered from the Recycle Bin within 15 days of deletion."></lightning-helptext>
+    </div>
+</template>
