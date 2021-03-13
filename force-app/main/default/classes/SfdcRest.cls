@@ -26,16 +26,16 @@ public inherited sharing class SfdcRest {
         try { 
             Http http = new Http();  
             HttpResponse httpResponse = http.send(httpRequest); 
-            System.debug(LoggingLevel.warn, 'httpResponse.getStatusCode(): '+ httpResponse.getStatusCode()); 
+            System.debug(LoggingLevel.warn, 'SFDR.DARC httpResponse.getStatusCode(): '+ httpResponse.getStatusCode()); 
             if (httpResponse.getStatusCode() == 204 ) { 
                //We're golden! Do nothing
             } else { 
-                System.debug(LoggingLevel.warn, 'DARC alleged failure httpResponse ' + httpResponse.getBody() ); 
+                System.debug(LoggingLevel.warn, 'SFDR.DARC alleged failure httpResponse ' + httpResponse.getBody() ); 
                 //dont throw, instead move to next and throw at the end???????
                 throw new CalloutException( httpResponse.getBody() ); 
             }  
         } catch( System.Exception ex) { 
-            System.debug(LoggingLevel.warn, 'DARC Caught ERROR: '+ ex); 
+            System.debug(LoggingLevel.warn, 'SFDR.DARC Caught ERROR: '+ ex); 
             throw ex; 
         } 
     }
@@ -83,8 +83,6 @@ public inherited sharing class SfdcRest {
     // }
  //////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // private static void patchAnalyitcRestCall(String pEndPoint, String pBody){
-    //     System.debug('SR.PARC pEndpoint: '+pEndpoint);
-    //     System.debug('SR.PARC pBody: '+pBody);
     //     //here's one example of a patch
     //     //https://blog.bessereau.eu/assets/pdfs/salesforce_analytics_rest_api.pdf
     //     //this example puts everything in JSON format
@@ -105,9 +103,7 @@ public inherited sharing class SfdcRest {
     //         HttpResponse httpResponse = http.send(httpRequest); 
     //         if (httpResponse.getStatusCode() == 204 ) { 
     //             //do nothing
-    //             System.debug(LoggingLevel.warn, 'patch callout success' ); 
     //         } else { 
-    //             System.debug(LoggingLevel.warn, 'patch alleged failure httpResponse ' + httpResponse.getBody() ); 
     //             //dont throw, instead move to next?
     //             throw new CalloutException( httpResponse.getBody() ); 
     //         }  

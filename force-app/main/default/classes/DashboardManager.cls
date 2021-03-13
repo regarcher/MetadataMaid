@@ -44,7 +44,6 @@ public inherited sharing class DashboardManager {
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
    @testVisible
    private static String convertColumnNameToDbName(String pColumnName){
-        system.debug('pColumnName: '+pColumnName);
         //default it up front
         String strRetVal = 'CreatedBy.LastName';
         if (pColumnName == 'Title'){
