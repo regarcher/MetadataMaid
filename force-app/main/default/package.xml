@@ -1,27 +1,23 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
-        <members>DashboardManager</members>
-        <members>DashboardManagerTest</members>
-        <members>SfdcRest</members>
-        <members>SfdcRestTest</members>
-        <members>MetaMaidHttpCalloutMock</members>
+        <members>*</members>
         <name>ApexClass</name>
     </types>
     <types>
-        <members>GetSessionIdVF</members>
+        <members>*</members>
         <name>ApexPage</name>
     </types>
     <types>
-        <members>Metadata_Maid</members>
+        <members>*</members>
         <name>CustomApplication</name>
     </types>
     <types>
-        <members>Private_Dashboard_Maid</members>
+        <members>*</members>
         <name>CustomTab</name>
     </types>
     <types>
-        <members>deletePrivateDashboards</members>
+        <members>*</members>
         <name>LightningComponentBundle</name>
     </types>
     <version>51.0</version>
