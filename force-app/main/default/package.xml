@@ -1,28 +1,34 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>MetadataMaid</fullName>
     <types>
-        <members>*</members>
+        <members>DashboardManager</members>
+        <members>DashboardManagerTest</members>
+        <members>MetaMaidHttpCalloutMock</members>
+        <members>SfdcRest</members>
+        <members>SfdcRestTest</members>
         <name>ApexClass</name>
     </types>
     <types>
-        <members>*</members>
+        <members>GetSessionIdVF</members>
         <name>ApexPage</name>
     </types>
     <types>
-        <members>*</members>
+        <members>Metadata_Maid</members>
         <name>CustomApplication</name>
     </types>
     <types>
-        <members>*</members>
+        <members>Private_Dashboard_Maid</members>
         <name>CustomTab</name>
     </types>
     <types>
-        <members>*</members>
-        <name>LightningComponentBundle</name>
-    </types>
-     <types>
-        <members>*</members>
+        <members>Metadata_Maid_UtilityBar</members>
+        <members>Private_Dashboard_Maid</members>
         <name>FlexiPage</name>
     </types>
-    <version>51.0</version>
+    <types>
+        <members>deletePrivateDashboards</members>
+        <name>LightningComponentBundle</name>
+    </types>
+    <version>50.0</version>
 </Package>
