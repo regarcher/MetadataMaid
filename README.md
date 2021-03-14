@@ -65,8 +65,12 @@ Note that we can not insert a Report or a Dashboard and thus it is very difficul
 6. If this fails, go to your org and inspect Setup->Deployment Status
 
 ## Post Deployment Steps
-1. Go to edit your profile and set the Metadata Maid (Custom App Setting) to Visible and set the Private Dashboard Maid (Custom Tab Setting) to Default On
-2. All classes and pages security should default to System Administrator.  If this is not your profile, you'll need to add yourself to those as well.  You can get a list of the classes and pages from the package.xml which is in the unzipped package you brought down from Github.
+
+1. Go to edit your profile and set:
+   - Metadata Maid (Custom App Setting) to Visible
+   - Private Dashboard Maid (Custom Tab Setting) to Default On
+   - Manage All Private Reports and Dashboards to true (this may be disabled if you are on a Standard Profile)
+2. All classes and pages security should default to System Administrator.  If this is not your profile, you'll need to add your profile to those as well.  You can get a list of the classes and pages from the package.xml which is in the unzipped package you brought down from Github.
 3. 
 
 ## Future Dreams
