@@ -16,10 +16,9 @@ This tool will list all private Dashboards owned by inactive Users and allow you
 
 ## Enhanced Folder Sharing
 There's apparently a lot to consider here if you don't have it currently enabled:
+
 <a href="http://ap1.salesforce.com/help/pdfs/en/salesforce_analytics_folder_sharing_cheatsheet.pdf">Analytics Folder Sharing</a>
-
 <a href="https://help.salesforce.com/apex/HTViewSolution?id=000193465&amp;language=en_US">Enhanced Folder Sharing -- Demystified</a>
-
 <a href="https://help.salesforce.com/HTViewHelpDoc?id=analytics_sharing_enable.htm">Turn On Enhanced Sharing for Reports and Dashboards</a>
 
 Finally, if you decide to enable it:
