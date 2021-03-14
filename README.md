@@ -50,6 +50,7 @@ This solution contains a Lighting Web Component (LWC) which require your Org to 
 Deletions of Dashboards are done via the REST API.  These are performed one at a time.  Governor limits limit us to 100 callouts per execution.  This is one of the reasons I limited the GUI to 20 records.
 
 **Code Test Classes**
+
 Note that we can not insert a Report or a Dashboard and thus it is very difficult to perform assertions.  The test classes are only here to provide code coverage.
 
 ## Future Dreams
