@@ -43,12 +43,13 @@ Unfortunately, private Reports cannot be deleted or moved without logging in as 
 
 ## Half Baked Installation 
 Unfortunately I was only able to get this installer to bring down Classes and Pages.  I could not get it to bring down CustomApplication, CustomTab, LightningComponentBundle, or FlexiPage.
+
 <a href="https://githubsfdeploy.herokuapp.com?owner=regarcher&repo=MetadataMaid&ref=main">
   <img alt="Deploy to Salesforce"
        src="https://raw.githubusercontent.com/afawcett/githubsfdeploy/master/deploy.png">
 </a>
 
-## Installation Via 
+## Installation Via ....
 
 ## Post Deployment Steps
 So, it seems that the free deployment tool you see above isn't working propery in that it doesn't deploy Applications, Tabs, or LWC .
