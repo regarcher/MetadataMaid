@@ -10,6 +10,8 @@ As you probably know, Salesforce has a Mass Delete Records -> Mass Delete Report
  
 This tool will list all private Dashboards owned by inactive Users and allow you to select and delete the records of your choosing.
 
+You must have My Domain turned on to utilize this App.
+
 ## User's Guide
 
 **Data Scope**
@@ -29,6 +31,7 @@ User Name is a link.  Launching it might tell you more about the user such as in
 Deleted Dashboards can be recovered from the Recycle Bin within 15 days of deletion.
 
 ## Code Design
+This solution contains a Lighting Web Component (LWC) which require your Org to have My Domain in order to run.
 Deletions of Dashboards are done via the REST API.  These are performed one at a time.  Governor limits limit us to 100 callouts per execution.  This is one of the reasons I limited the GUI to 20 records.
 
 ## Code Test Classes
@@ -49,10 +52,14 @@ Unfortunately I was only able to get this installer to bring down Classes and Pa
        src="https://raw.githubusercontent.com/afawcett/githubsfdeploy/master/deploy.png">
 </a>
 
-## Installation Via ....
+## Installation From Github to Salesforce via Workbench
+1. Download the zip from from Github using the green Code button/dropdown.
+2. Unzip the file.
+3. Navigate to the force-app/main/default folder and zip the contents.
+4. Launch Workbench (watch your url to verify that you're launching the correct Org), and go to Migration->Deploy
+5. Choose the zip of the default folder contents we just created, rollback on error, single package, and if you're going to Production select RunLocalTests.
+6. If this fails, go to your org and inspect Setup->Deployment Status
 
 ## Post Deployment Steps
-So, it seems that the free deployment tool you see above isn't working propery in that it doesn't deploy Applications, Tabs, or LWC .
-You have a couple options.
-1. You can deploy with the code above and go to the Lightning App Builder and create a Lightning App Page named "Private Dashboard Maid" an application named "Metadata Maid" which includes the tab.  This tab 
-2. You can
+1. Go to edit your profile and set the Metadata Maid (Custom App Setting) to Visible and set the Private Dashboard Maid (Custom Tab Setting) to Default On
+2.  
