@@ -30,7 +30,7 @@ Finally, if you decide to enable it:
 
 **Data Scope**
 
-Only inactive user's private Dashboards are listed.  I'm only offering 20 records at a time for various reasons.  You should be able to get through the whole list in under 5 minutes.
+Only inactive user's private Dashboards are listed.  I'm only offering 20 records at a time for various reasons.  You should be able to get through the whole list in much less time than it took you to load and configure the app.
 
 **Column Sorting**
 
