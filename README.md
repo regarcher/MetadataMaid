@@ -54,4 +54,5 @@ Unfortunately, private Reports cannot be deleted or moved without logging in as 
 
 ## Post Deployment Steps
 1. Go to edit your profile and set the Metadata Maid (Custom App Setting) to Visible and set the Private Dashboard Maid (Custom Tab Setting) to Default On
-2.  
+2. All classes and pages security should default to System Administrator.  If this is not your profile, you'll need to add yourself to those as well.  You can get a list of the classes and pages from the package.xml which is in the unzipped package you brought down from Github.
+3. 
