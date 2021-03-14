@@ -53,10 +53,6 @@ Deletions of Dashboards are done via the REST API.  These are performed one at a
 
 Note that we can not insert a Report or a Dashboard and thus it is very difficult to perform assertions.  The test classes are only here to provide code coverage.
 
-## Future Dreams
-Right now I'm only offering you the Private Dashboard Maid, but yes, I hope to add more tabs to the Application.  
-Unfortunately, private Reports cannot be deleted or moved without logging in as the user.  I did not find an easy way to programatically login as a user and thus I do not intend to provide the ability to delete private Reports.
-
 ## Installation From Github to Salesforce via Workbench
 1. Download the zip from from Github using the green Code button/dropdown.
 2. Unzip the file.
@@ -70,6 +66,9 @@ Unfortunately, private Reports cannot be deleted or moved without logging in as 
 2. All classes and pages security should default to System Administrator.  If this is not your profile, you'll need to add yourself to those as well.  You can get a list of the classes and pages from the package.xml which is in the unzipped package you brought down from Github.
 3. 
 
+## Future Dreams
+Right now I'm only offering you the Private Dashboard Maid, but yes, I hope to add more tabs to the Application.  
+Unfortunately, private Reports cannot be deleted or moved without logging in as the user.  I did not find an easy way to programatically login as a user and thus I do not intend to provide the ability to delete private Reports.
 
 ```apex
 ```
