@@ -46,6 +46,7 @@ Deleted Dashboards can be recovered from the Recycle Bin within 15 days of delet
 
 ## Code Design
 This solution contains a Lighting Web Component (LWC) which require your Org to have My Domain in order to run.
+
 Deletions of Dashboards are done via the REST API.  These are performed one at a time.  Governor limits limit us to 100 callouts per execution.  This is one of the reasons I limited the GUI to 20 records.
 
 ## Code Test Classes
