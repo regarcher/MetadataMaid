@@ -12,7 +12,7 @@ As you probably know, Salesforce has a Mass Delete Records -> Mass Delete Report
 This tool will list all private Dashboards owned by inactive Users and allow you to select and delete the records of your choosing.
 
 ## Required Settings
-1. You must have My Domain turned as LWC is utilized.
+1. You must use My Domain as LWC is utilized.
 2. You must have Enhanced Folder Sharing enabled as we're querying with 'USING SCOPE allPrivate'. (see the next section)
 
 ## Enhanced Folder Sharing
