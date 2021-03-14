@@ -9,6 +9,9 @@ As you probably know, Salesforce has a Mass Delete Records -> Mass Delete Report
     6. Inactivate that user
     7. Feel guilty as your name and the date have been recorded as last modified, and you hope that Security doesn't ask you about it some time in the future.
  
+
+<a href="https://www.simplysfdc.com/2019/03/salesforce-finding-reports-and.html">Great writeup on deleting reports</a> 
+ 
 This tool will list all private Dashboards owned by inactive Users and allow you to select and delete the records of your choosing.
 
 ## Required Settings
