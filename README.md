@@ -12,8 +12,8 @@ As you probably know, Salesforce has a Mass Delete Records -> Mass Delete Report
 This tool will list all private Dashboards owned by inactive Users and allow you to select and delete the records of your choosing.
 
 ## Required Settings
-1. You must have My Domain turned on to utilize this App.
-2. You must have Enhanced Folder Sharing enabled. (see the next section)
+1. You must have My Domain turned as LWC is utilized.
+2. You must have Enhanced Folder Sharing enabled as we're querying with 'USING SCOPE allPrivate'. (see the next section)
 
 ## Enhanced Folder Sharing
 There's apparently a lot to consider here if you don't have it currently enabled:
@@ -21,8 +21,6 @@ There's apparently a lot to consider here if you don't have it currently enabled
 <li><a href="http://ap1.salesforce.com/help/pdfs/en/salesforce_analytics_folder_sharing_cheatsheet.pdf">Analytics Folder Sharing</a></li>
 <li><a href="https://help.salesforce.com/apex/HTViewSolution?id=000193465&amp;language=en_US">Enhanced Folder Sharing -- Demystified</a></li>
 <li><a href="https://help.salesforce.com/HTViewHelpDoc?id=analytics_sharing_enable.htm">Turn On Enhanced Sharing for Reports and Dashboards</a></li>
-
-
 
 Finally, if you decide to enable it:
 
