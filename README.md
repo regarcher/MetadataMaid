@@ -41,8 +41,8 @@ Unfortunately, private Reports cannot be deleted or moved without logging in as 
 ```apex
 ```
 
-## Half Baked Installation 
-Unfortunately I was only able to get this installer to bring down Classes and Pages.  I could not get it to bring down CustomApplication, CustomTab, LightningComponentBundle, or FlexiPage.  Yes, I tried Andy's recommendation to include a package.xml, but it didn't help me.
+## Half Baked Installation (FAIL)
+Unfortunately I was only able to get this installer to bring down Classes and Pages.  I could not get it to bring down CustomApplication, CustomTab, LightningComponentBundle, or FlexiPage.  Yes, I tried Andy's recommendation to include a package.xml, but it didn't help me.  If you have any suggestions on how to fix this, please let me know.
 
 <a href="https://githubsfdeploy.herokuapp.com?owner=regarcher&repo=MetadataMaid&ref=main">
   <img alt="Deploy to Salesforce"
