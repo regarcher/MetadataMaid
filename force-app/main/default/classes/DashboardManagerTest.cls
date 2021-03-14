@@ -1,11 +1,11 @@
 @isTest
-//we need to have seeAllData = true because you can't insert a Report
+    //source: https://github.com/regarcher/MetadataMaid
 private class DashboardManagerTest {
     //NOTE WE CAN'T CREATE REPORTS OR DASHBOARDS IN APEX, SO WE'RE FORCED TO JUST SETTLE FOR CODE COVERAGE
     //This test class tests very very little.
 
     //////////////////////////////////////////////////////////////////////////
-    //We can't insert a Report, so I'm using seeAllData=true here instead. Once again, it's just for code coverage purposes
+    //We can't insert a Report, so I'm using seeAllData=true here instead just to boost up code coverage. 
     @IsTest(seeAllData=true) public static void testGetters(){
        //salesforce says you can used the Rest API to "Build custom dashboards."
        //I think they mean that we can customize existing dashboards.  I don't see were we can create them via API

@@ -1,4 +1,5 @@
 //deletePrivateDashboards.js
+//source: https://github.com/regarcher/MetadataMaid
 import { LightningElement, wire, track } from 'lwc';
 import getInactiveUsersAndDashboardWrappersWithParams from '@salesforce/apex/DashboardManager.getInactiveUsersAndDashboardWrappersWithParams';
 import deletePrivateDashboardsById from '@salesforce/apex/DashboardManager.deletePrivateDashboardsById';

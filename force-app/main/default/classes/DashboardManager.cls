@@ -1,4 +1,5 @@
 public inherited sharing class DashboardManager {
+    //source: https://github.com/regarcher/MetadataMaid
     @AuraEnabled
     public static boolean deletePrivateDashboardsById(List<ID> pDashboardIds){
         for (ID myDBID:pDashboardIds){
