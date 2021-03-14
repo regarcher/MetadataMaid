@@ -10,7 +10,13 @@ public inherited sharing class DashboardManager {
     ///////////////////////////////////////////////////////////////////////////////////////////////////
     @AuraEnabled(cacheable=true)
     public static Integer getPrivateDashboardsInactiveUsersCount(){
-        Integer iRetVal = Database.countQuery('SELECT Count() FROM Dashboard USING SCOPE allPrivate where createdby.isactive = false'); 
+        Integer iRetVal = 0;
+        try {
+            iRetVal = Database.countQuery('SELECT Count() FROM Dashboard USING SCOPE allPrivate where createdby.isactive = false'); 
+        } catch (Exception ex) {
+            System.debug('DM.GPDIUC exception: '+ex);
+            throw new AuraHandledException(ex.getMessage());
+        }    
         return iRetVal;
     }
    ////////////////////////////////////////////////////////////////////////////////////////////////////////
