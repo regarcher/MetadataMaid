@@ -21,6 +21,7 @@ There's apparently a lot to consider here if you don't have it currently enabled
 <li><a href="https://help.salesforce.com/apex/HTViewSolution?id=000193465&amp;language=en_US">Enhanced Folder Sharing -- Demystified</a></li>
 <li><a href="https://help.salesforce.com/HTViewHelpDoc?id=analytics_sharing_enable.htm">Turn On Enhanced Sharing for Reports and Dashboards</a></li>
 
+
 Finally, if you decide to enable it:
 
 <a href="https://help.salesforce.com/articleView?id=000321245">Instructions for Enabling</a>
