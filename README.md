@@ -59,8 +59,8 @@ Note that we can not insert a Report or a Dashboard and thus it is very difficul
 ## Installation From Github to Salesforce via Workbench
 1. Download the zip from from Github using the green Code button/dropdown.
 2. Unzip the file.
-3. Navigate to the force-app/main/default folder and zip the contents.
-4. Launch Workbench (watch your url to verify that you're launching the correct Org), and go to Migration->Deploy
+3. Navigate INTO the force-app/main/default folder and zip the CONTENTS.  The outcome on a mac should be something like Archive.zip, NOT default.zip.
+4. Launch Workbench (float over your name link on the upper right to ensure you're in the correct org), and go to Migration->Deploy
 5. Choose the zip of the default folder contents we just created, rollback on error, single package, and if you're going to Production select RunLocalTests.
 6. If this fails, go to your org and inspect Setup->Deployment Status
 
