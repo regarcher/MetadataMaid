@@ -24,7 +24,9 @@ public inherited sharing class DashboardManager {
     public static List<PrivateDashboardWrapper> getInactiveUsersAndDashboardWrappersWithParams(String pSortField, String pSortOrder){
         List<PrivateDashboardWrapper> lstRetVal = new List<PrivateDashboardWrapper>();
         boolean pGetInactiveOnly = false;
-        for (Dashboard myDB: getPrivateDashboardsInactiveUsers(pSortField, pSortOrder)){
+        String strSortOrderCleansed = SanitizeString(pSortOrder);
+        String strSortField = convertColumnNameToDbName(pSortField);
+        for (Dashboard myDB: getPrivateDashboardsInactiveUsers(strSortField, strSortOrderCleansed)){
             lstRetVal.add(new PrivateDashboardWrapper(myDB.Id, myDB.Title, String.valueof(myDB.lastModifiedDate), myDB.createdbyid, 
                 myDB.createdby.FirstName,  myDB.createdby.LastName, myDB.createdby.profile.name, 
                 String.valueOf(myDB.createdby.LastLoginDate)));
@@ -35,12 +37,11 @@ public inherited sharing class DashboardManager {
     @testVisible
     private static List<Dashboard> getPrivateDashboardsInactiveUsers(String pSortField, String pSortOrder){
         List<Dashboard> lstDB;
-        String strSortField = convertColumnNameToDbName(pSortField);
         if (pSortOrder==null){
             pSortOrder = 'asc';
         }
         try {
-            String strQuery = 'SELECT Id, Title, lastmodifieddate, CreatedById, CreatedBy.FirstName, CreatedBy.LastName, CreatedBy.Profile.name, CreatedBy.LastLoginDate FROM Dashboard USING SCOPE allPrivate where createdby.isactive = false order by '+strSortField+' '+pSortOrder+' limit 20';
+            String strQuery = 'SELECT Id, Title, lastmodifieddate, CreatedById, CreatedBy.FirstName, CreatedBy.LastName, CreatedBy.Profile.name, CreatedBy.LastLoginDate FROM Dashboard USING SCOPE allPrivate where createdby.isactive = false order by '+pSortField+' '+pSortOrder+' limit 20';
             lstDB = Database.query(strQuery);
         } catch (Exception ex) {
             System.debug('DM.GPDIU exception: '+ex);
@@ -86,5 +87,10 @@ public inherited sharing class DashboardManager {
             this.ProfileName = pProfileName;
             this.LastLogin = pLastLogin;
         }
+    }
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    private static string SanitizeString(String pString){
+        String strRetVal = string.escapeSingleQuotes(pString);
+        return strRetVal.replaceAll('[^\\w]','');
     }
 }

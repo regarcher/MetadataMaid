@@ -5,7 +5,7 @@ public inherited sharing class SfdcRest {
     //Keep in mind that we can only make 100 callouts in a single execution context:
     //https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_gov_limits.htm
     //////////////////////////////////////////////////////////////////////////////////////////////////////
-    public static void deleteDashboard(String pDashboardId){
+    public static boolean deleteDashboard(String pDashboardId){
         //yes! you can call this as a Syad on another user even if that user is inactive!!!!!
         //https://developer.salesforce.com/docs/atlas.en-us.api_analytics.meta/api_analytics/analytics_api_dashboard_delete.htm
         //example: /services/data/v34.0/analytics/dashboards/01ZD00000007S89MAE
@@ -13,12 +13,13 @@ public inherited sharing class SfdcRest {
         // Make sure you're doing defensive programming (dappleman)
         String sfdcURL = URL.getSalesforceBaseUrl().toExternalForm();
         String restAPIURL = sfdcURL + '/services/data/v49.0/analytics/dashboards/'+ pDashboardId; 
-        deleteAnalyitcRestCall(restAPIURL);
+        return deleteAnalyitcRestCall(restAPIURL);
     }
     /////////////////////////////////////////////////////////////////////////////////////////////////////
-    private static void deleteAnalyitcRestCall(String pEndPoint){
+    private static boolean deleteAnalyitcRestCall(String pEndPoint){
         //this was specifically written for the deletion of Reports and Dashboards which are known to return a 204 when successful.
         //I'm uncertain if 204 is common amongst other DELETE calls
+        boolean bSuccess = true;
         HttpRequest httpRequest = new HttpRequest(); 
         httpRequest.setMethod('DELETE');  
         //UserInfo.getSessionId() might work fine with execute anonymous, but, lightning sessionIds don't make callouts
@@ -40,6 +41,7 @@ public inherited sharing class SfdcRest {
             System.debug(LoggingLevel.warn, 'SFDR.DARC Caught ERROR: '+ ex); 
             throw ex; 
         } 
+        return bSuccess;
     }
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////
     @testVisible
