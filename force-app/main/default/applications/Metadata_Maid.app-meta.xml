@@ -11,6 +11,7 @@
     <label>Metadata Maid</label>
     <navType>Standard</navType>
     <tabs>Private_Dashboard_Maid</tabs>
+    <tabs>Public_View_Maid</tabs>
     <uiType>Lightning</uiType>
     <utilityBar>Metadata_Maid_UtilityBar</utilityBar>
 </CustomApplication>
