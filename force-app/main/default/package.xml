@@ -4,9 +4,14 @@
     <types>
         <members>DashboardManager</members>
         <members>DashboardManagerTest</members>
+        <members>HTTPMockMaidFactory</members>
+        <members>mdService</members>
+        <members>mdServiceTest</members>
         <members>MetaMaidHttpCalloutMock</members>
         <members>SfdcRest</members>
         <members>SfdcRestTest</members>
+        <members>ViewManager</members>
+        <members>ViewManagerTest</members>
         <name>ApexClass</name>
     </types>
     <types>
@@ -19,15 +24,18 @@
     </types>
     <types>
         <members>Private_Dashboard_Maid</members>
+        <members>Public_View_Maid</members>
         <name>CustomTab</name>
     </types>
     <types>
         <members>Metadata_Maid_UtilityBar</members>
         <members>Private_Dashboard_Maid</members>
+        <members>Public_View_Maid</members>
         <name>FlexiPage</name>
     </types>
     <types>
         <members>deletePrivateDashboards</members>
+        <members>deletePublicViews</members>
         <name>LightningComponentBundle</name>
     </types>
     <version>50.0</version>
