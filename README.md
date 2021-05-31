@@ -18,6 +18,11 @@ As you probably know, Salesforce has a Mass Delete Records -> Mass Delete Report
  
 This tool "should" list all private Dashboards owned by inactive Users and "should" allow you to select and delete the records of your choosing.
 
+## Why Public View Maid
+Sure, you could have, should have, and even may have locked down users ability to create new views, but you still may have many public views created before you got everything locked down, and now it clutters all the users view experience.  Do you really need that Q3 2001 Opportunity view that just shows one users "mine" scoped Opportunities?  
+
+The intent of this tab is to put all the views in one place and give you the opportunity to mass delete them if you wish to.  Maybe you don't even do it yourself, maybe you send a list to be cleaned up to individual users or to group leaders?
+
 ## Required Settings
 1. You must use My Domain as LWC is utilized in this solution.
 2. For Private Dashboard Maid, you must have Enhanced Folder Sharing enabled (see section below) as we're querying with 'USING SCOPE allPrivate'. (see the next section)
