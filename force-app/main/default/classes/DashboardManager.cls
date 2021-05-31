@@ -1,5 +1,6 @@
 public inherited sharing class DashboardManager {
     //source: https://github.com/regarcher/MetadataMaid
+    //Per Salesforce: "Using inherited sharing enables you to pass AppExchange Security Review and ensure that your privileged Apex code is not used in unexpected or insecure ways."
     @AuraEnabled
     public static boolean deletePrivateDashboardsById(List<ID> pDashboardIds){
         for (ID myDBID:pDashboardIds){

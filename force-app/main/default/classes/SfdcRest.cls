@@ -12,13 +12,42 @@ public inherited sharing class SfdcRest {
         //Make sure your Salesforce instance URL is added in remote site settings
         // Make sure you're doing defensive programming (dappleman)
         String sfdcURL = URL.getSalesforceBaseUrl().toExternalForm();
-        String restAPIURL = sfdcURL + '/services/data/v49.0/analytics/dashboards/'+ pDashboardId; 
-        return deleteAnalyitcRestCall(restAPIURL);
+        String restAPIURL = sfdcURL + '/services/data/v51.0/analytics/dashboards/'+ pDashboardId; 
+        return deleteRestCall(restAPIURL);
+    }
+    /////////////////////////////////////////////////////////////////////////////////////////////
+    public static map<String, String> getListViewDetails(String pObjectType, String pViewId){
+        map<String, String> mapKeyToVal = new map<String, String>();
+        Http httpCall = new Http();
+        HttpRequest restRequest = new HttpRequest();
+        HttpResponse restResponse;
+        String responseBody;
+        restRequest.setTimeout(120000);
+        String sessionId = fetchUserSessionId();
+        String strDomain = Url.getSalesforceBaseUrl().toExternalForm();
+        String strEndpoint = strDomain + '/services/data/v51.0/sobjects/' + pObjectType + '/listviews/' + pViewId + '/describe';
+        restRequest.setEndpoint(strEndpoint);
+        restRequest.setMethod('GET');
+        restRequest.setHeader('Content-Type', 'application/json');
+        restRequest.setHeader('Authorization', 'Bearer '+ sessionId);
+        restResponse = httpCall.send(restRequest);
+        responseBody = restResponse.getBody();
+        Map<String, Object> mapKeyToObj = (Map<String, Object>)JSON.deserializeUntyped(responseBody);  
+        for(String key : mapKeyToObj.keyset()) { 
+            if (key=='query'){
+                mapKeyToVal.put(key, (String)mapKeyToObj.get(key));
+            }else if (key=='scope'){
+                mapKeyToVal.put(key, (String)mapKeyToObj.get(key));
+            }
+        } 
+        
+        return mapKeyToVal;
     }
     /////////////////////////////////////////////////////////////////////////////////////////////////////
-    private static boolean deleteAnalyitcRestCall(String pEndPoint){
+    private static boolean deleteRestCall(String pEndPoint){
         //this was specifically written for the deletion of Reports and Dashboards which are known to return a 204 when successful.
         //I'm uncertain if 204 is common amongst other DELETE calls
+        System.debug(LoggingLevel.warn, 'SFDR.DRC pEndPoint: '+pEndPoint); 
         boolean bSuccess = true;
         HttpRequest httpRequest = new HttpRequest(); 
         httpRequest.setMethod('DELETE');  
@@ -29,16 +58,16 @@ public inherited sharing class SfdcRest {
         try { 
             Http http = new Http();  
             HttpResponse httpResponse = http.send(httpRequest); 
-            System.debug(LoggingLevel.warn, 'SFDR.DARC httpResponse.getStatusCode(): '+ httpResponse.getStatusCode()); 
+            System.debug(LoggingLevel.warn, 'SFDR.DRC httpResponse.getStatusCode(): '+ httpResponse.getStatusCode()); 
             if (httpResponse.getStatusCode() == 204 ) { 
                //We're golden! Do nothing
             } else { 
-                System.debug(LoggingLevel.warn, 'SFDR.DARC alleged failure httpResponse ' + httpResponse.getBody() ); 
+                System.debug(LoggingLevel.warn, 'SFDR.DRC alleged failure httpResponse ' + httpResponse.getBody() ); 
                 //dont throw, instead move to next and throw at the end???????
                 throw new CalloutException( httpResponse.getBody() ); 
             }  
         } catch( System.Exception ex) { 
-            System.debug(LoggingLevel.warn, 'SFDR.DARC Caught ERROR: '+ ex); 
+            System.debug(LoggingLevel.warn, 'SFDR.DRC Caught ERROR: '+ ex); 
             throw ex; 
         } 
         return bSuccess;
@@ -62,58 +91,5 @@ public inherited sharing class SfdcRest {
         sessionId = vfContent.substring(startP, endP);
         return sessionId;
     }
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    //Note that moving reports on a trigger probably wouldn't work as it would have to be in the after User update, 
-    //and by the time we inactivated the user, we would not be able to move the reports
-    //MOVE REPORT NOTES
-    //I'm seeing that this guy says if you can get these reports into a public folder, you can mass delete them
-    //Keep in mind that If I can get them into a common folder, the mass delete tool can delete them for me!
-    //https://sf9to5.com/2017/10/11/salesforce-mass-report-mover/
-    //SFDC_BASE_URL = "https://{0}.salesforce.com"
-    //SFDC_SERVICE_URL = "https://{0}.salesforce.com/services/data/v{1}"
-    // vs our earlier calls services/data/v49.0/analytics/dashboards/
-    //hmmm, looks like he's making a PATCH call...  
- /////////////////////////////////////////////////////////////////////////////////////////////////////
-    //yeah, I don't think this is going to work for private reports if you're not logged in as that user
-    // public static void moveReport(String pReportId, String pReportName, String pDestinationFolderId){
-    //     Map<String, Map<String,String>> myMap = new Map<String, Map<String,String>>();
-    //     myMap.put('reportMetadata', new Map<String,String>());
-    //     myMap.get('reportMetadata').put('name', pReportName);
-    //     myMap.get('reportMetadata').put('folderId', pDestinationFolderId);
-    //     String body = Json.serialize(myMap);
-    //     String sfdcURL = URL.getSalesforceBaseUrl().toExternalForm();
-    //     String restAPIURL = sfdcURL + '/services/data/v49.0/analytics/reports/'+ pReportId;
-    //     patchAnalyitcRestCall(restAPIURL, body);
-    // }
- //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // private static void patchAnalyitcRestCall(String pEndPoint, String pBody){
-    //     //here's one example of a patch
-    //     //https://blog.bessereau.eu/assets/pdfs/salesforce_analytics_rest_api.pdf
-    //     //this example puts everything in JSON format
-    //     //which, ends up throwing the following error:
-    //     //[{"errorCode":"UNSUPPORTED_MEDIA_TYPE","message":"The Analytics API only supports JSON content type in both request and response bodies. Specify requests with content type as application/​json."}]
-    //     //Note however if I perform this "same" request in workbench, it works perfectly (for my own private reports)
-    //     //If I attempt to execute this command for another user's reports (either here or in workbench), I end up getting the following error:
-    //     //[{"errorCode":"UNSUPPORTED_MEDIA_TYPE","message":"The Analytics API only supports JSON content type in both request and response bodies. Specify requests with content type as application/​json."}]
-    //     //I could spend more time attempting to perfect this move method, but, if it doesn't get me to my end goal, what's the point?
-    //     HttpRequest httpRequest = new HttpRequest(); 
-    //     httpRequest.setMethod('PATCH');  
-    //     httpRequest.setHeader('Authorization', 'OAuth ' + UserInfo.getSessionId());       
-    //     httpRequest.setEndpoint(pEndPoint); 
-    //     httpRequest.setBody(pBody);
-        
-    //     try { 
-    //         Http http = new Http();  
-    //         HttpResponse httpResponse = http.send(httpRequest); 
-    //         if (httpResponse.getStatusCode() == 204 ) { 
-    //             //do nothing
-    //         } else { 
-    //             //dont throw, instead move to next?
-    //             throw new CalloutException( httpResponse.getBody() ); 
-    //         }  
-    //     } catch( System.Exception e) { 
-    //         System.debug(LoggingLevel.warn, 'Caught patch ERROR: '+ e); 
-    //         throw e; 
-    //     } 
-    //}
+    
  }

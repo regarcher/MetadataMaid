@@ -1,0 +1,63 @@
+<template>
+   
+    <div class="slds-grid">
+        <div class="slds-form-element; slds-col">
+            <label class="slds-form-element__label">
+                <span class="">Object Type</span>
+            </label>
+            <div class="slds-form-element__control; slds-p-bottom_small" style="width: 200px;">
+                <div class="slds-select_container">
+                    <select class="slds-select" onchange={selectionChangeHandler} >
+                        <option value="Select">Select</option>
+                        <template for:each={objectTypePicklistValues} for:item="option">
+                            <option key={option.label} class="uiInputSelectOption" value={option.value}>{option.label}</option>
+                        </template>
+                    </select>
+                </div>
+            </div>
+        </div>
+    
+        <div class="slds-col; slds-align-bottom ">
+            <div class="slds-p-bottom_x-small">
+                <lightning-button  label="Delete Selected" onclick={handleDeleteViewClick} 
+                disabled={disableButton}></lightning-button>
+            </div>
+        </div>
+        <div class="slds-col"></div>
+        <div class="slds-col"></div>
+    </div>
+    <div>
+        <template if:true={isLoading}>
+            <div class="slds-p-around_x-large">
+                <lightning-spinner alternative-text="Loading" size="large" variant="brand"></lightning-spinner>
+            </div>
+        </template>
+
+    </div>
+    <div style="height: 600px;">
+        <template if:false={error}>
+            <p><lightning-formatted-text value={recordCountMessage} ></lightning-formatted-text></p>
+            <lightning-datatable data={viewList} columns={columns} 
+                key-field="ListViewId" 
+                onrowselection={processSelectedRecords}   
+                sorted-by={sortBy}
+                sorted-direction={sortDirection}
+                onsort={handleSortdata}>
+            </lightning-datatable>
+        
+        </template>
+        <template if:true={error}>
+            {error}
+        </template>
+    </div> 
+
+    <div class="slds-p-around_medium lgc-bg">
+        <br>Purpose<lightning-helptext content="This will help you identify obsolete public views and mass delete them."></lightning-helptext>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Data Scope<lightning-helptext content="Only views visible to the running user but not created by the running user are listed."></lightning-helptext>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Filtering<lightning-helptext content="Object Type picklist will not facilitate listing Package objects.  There are other restrictions as well."></lightning-helptext>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Column Sorting<lightning-helptext content="Float your mouse over each column to see if it's sortable"></lightning-helptext>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Links<lightning-helptext content="User Name is a link which might help you identify the validity of the view?"></lightning-helptext>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Scope Column<lightning-helptext content="When a user creates a new View they have 3 Filter by Owner Options: 1: All opportunities (everything) 2: My opportunities (mine) 3: My team's opportunities (team)"></lightning-helptext>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Recycle Bin<lightning-helptext content="Deleted views DO NOT end up in the recycle bin."></lightning-helptext>
+    </div>
+</template>
