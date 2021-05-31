@@ -1,6 +1,5 @@
 public inherited sharing class SfdcRest {
     //source: https://github.com/regarcher/MetadataMaid
-    
     //I took some of this from https://www.jitendrazaa.com/blog/salesforce/call-salesforce-rest-api-from-apex/
     //Keep in mind that we can only make 100 callouts in a single execution context:
     //https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_gov_limits.htm
