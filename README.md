@@ -37,7 +37,9 @@ Finally, if you decide to enable it:
 
 **Data Scope**
 
-Only inactive user's private Dashboards are listed.  I'm only offering 20 records at a time for various reasons.  You should be able to get through the whole list in much less time than it took you to load and configure the app.
+For Private Dashboard Maid, only inactive user's private Dashboards are listed.  I'm only offering 20 records at a time for various reasons.  You should be able to get through the whole list in much less time than it took you to load and configure the app.
+
+For Public View Maid, we don't show the views created in the first 24 hours the Org was alive.  We don't show views created by you, you'll have to work on those yourself.  We don't show views that weren't created by humans.
 
 **Column Sorting**
 
@@ -50,15 +52,18 @@ User Name is a link.  Launching it might tell you more about the user such as in
 **Recycle Bin**
 
 Deleted Dashboards can be recovered from the Recycle Bin within 15 days of deletion.
+Deleted Views are not recoverable via the Recycle Bin.
 
 ## Code Design
 This solution contains a Lighting Web Component (LWC) which require your Org to have My Domain in order to run.
 
 Deletions of Dashboards are done via the REST API.  These are performed one at a time.  Governor limits limit us to 100 callouts per execution.  This is one of the reasons I limited the GUI to 20 records.
 
+Deletions of Views are done via SOAP API.
+
 **Code Test Classes**
 
-Note that we can not insert a Report or a Dashboard and thus it is very difficult to perform assertions.  The test classes are only here to provide code coverage.
+Note that we can not insert a Report, Dashboard, or View and thus it is very difficult to perform assertions.  The test classes are only here to provide code coverage.
 
 ## Installation From Github to Salesforce via Workbench
 1. Download the zip from from Github using the green Code button/dropdown.
@@ -73,12 +78,13 @@ Note that we can not insert a Report or a Dashboard and thus it is very difficul
 1. Go to edit your profile and set:
    - Metadata Maid (Assigned Apps/Custom App Setting) to Visible
    - Private Dashboard Maid (Object Settings/Custom Tab Setting) to Default On
+   - Public View Maid (Object Settings/Custom Tab Setting) to Default On
    - Manage All Private Reports and Dashboards to true (This is under System Permissions and may be disabled if you are on a Standard Profile)
 2. All classes and pages security should default to System Administrator.  If this is not your profile, you'll need to add your profile to those as well.  You can get a list of the classes and pages from the package.xml which is in the unzipped package you brought down from Github.
 3. 
 
 ## Future Dreams
-Right now I'm only offering you the Private Dashboard Maid, but yes, I hope to add more tabs to the Application.  
+Right now I'm only offering you the Private Dashboard Maid and Public View Maid, but yes, I hope to add more tabs to the Application.  
 Unfortunately, private Reports cannot be deleted or moved without logging in as the user.  I did not find an easy way to programatically login as a user and thus I do not intend to provide the ability to delete private Reports.
 
 ```apex
