@@ -10,7 +10,7 @@
         <members>MetaMaidHttpCalloutMock</members>
         <members>SfdcRest</members>
         <members>SfdcRestTest</members>
-        <members>UtilityClass</members>
+        <members>mdmUtilClass</members>
         <members>ViewManager</members>
         <members>ViewManagerTest</members>
         <name>ApexClass</name>

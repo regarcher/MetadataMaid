@@ -8,12 +8,12 @@ public inherited sharing class ViewManager {
         //and sort order 
         System.debug('VM.GVBON pObjectType: '+pObjectType+' pSortBy: '+pSortBy+' pSortORder: '+pSortOrder);
         List<PublicViewWrapper> lstRetVal = new List<PublicViewWrapper>();
-        String strObjectType = UtilityClass.SanitizeString(pObjectType);
+        String strObjectType = mdmUtilClass.SanitizeString(pObjectType);
         String strSortBy = convertColumnNameToDbName(pSortBy);
         //sanitizing to prevent soql injection
         String strSortOrder = 'asc';
         if (pSortOrder!=null){
-            strSortOrder = UtilityClass.SanitizeString(pSortOrder);
+            strSortOrder = mdmUtilClass.SanitizeString(pSortOrder);
         } 
         DateTime minDateTime = getMinDate();
         String strMinDateTime = minDateTime.formatGMT('yyyy-MM-dd\'T\'HH:mm:ss\'Z\'');
@@ -42,7 +42,7 @@ Public static integer getViewsCountByObjectName(String pObjectType){
     //and sort order 
     integer iCount;
     System.debug('VM.GVCBON pObjectType: '+pObjectType);
-    String strObjectType = UtilityClass.SanitizeString(pObjectType);
+    String strObjectType = mdmUtilClass.SanitizeString(pObjectType);
     DateTime minDateTime = getMinDate();
     String strMinDateTime = minDateTime.formatGMT('yyyy-MM-dd\'T\'HH:mm:ss\'Z\'');
     List<ListView> lstListView;
