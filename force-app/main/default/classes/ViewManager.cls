@@ -19,7 +19,7 @@ public inherited sharing class ViewManager {
         String strMinDateTime = minDateTime.formatGMT('yyyy-MM-dd\'T\'HH:mm:ss\'Z\'');
         List<ListView> lstListView;
         try {
-            String strQuery = 'SELECT Id, Name, DeveloperName, sObjectType, createdbyid, createdby.FirstName, createdby.LastName, createdby.profile.name, createddate, lastmodifieddate FROM ListView where createdbyid != null and createddate > '+ strMinDateTime +' and sobjecttype = \''+strObjectType+'\' and createdbyid != \''+UserInfo.getUserId()+'\' and createdby.firstname != \'Automated\' order by '+strSortBy+' '+strSortOrder+' limit 20';
+            String strQuery = 'SELECT Id, Name, DeveloperName, sObjectType, createdbyid, createdby.FirstName, createdby.LastName, createdby.profile.name, createddate, lastmodifieddate FROM ListView where createdby.LastName != null and createddate > '+ strMinDateTime +' and sobjecttype = \''+strObjectType+'\' and createdbyid != \''+UserInfo.getUserId()+'\' and createdby.firstname != \'Automated\' order by '+strSortBy+' '+strSortOrder+' limit 20';
             lstListView = Database.query(strQuery);
             for (ListView myLV:lstListView){
                 map<String, String> mapKeytoVal = SfdcRest.getListViewDetails(myLV.sObjectType, myLV.id);
@@ -47,7 +47,7 @@ Public static integer getViewsCountByObjectName(String pObjectType){
     String strMinDateTime = minDateTime.formatGMT('yyyy-MM-dd\'T\'HH:mm:ss\'Z\'');
     List<ListView> lstListView;
     try {
-        iCount =  Database.countQuery('SELECT Count() from ListView where createdbyid != null and createddate > '+ strMinDateTime +' and sobjecttype = \''+strObjectType+'\' and createdbyid != \''+UserInfo.getUserId()+'\' and createdby.firstname != \'Automated\''); 
+        iCount =  Database.countQuery('SELECT Count() from ListView where createdby.LastName != null and createddate > '+ strMinDateTime +' and sobjecttype = \''+strObjectType+'\' and createdbyid != \''+UserInfo.getUserId()+'\' and createdby.firstname != \'Automated\''); 
     } catch (Exception ex) {
         System.debug('DM.GVCBON exception: '+ex);
         throw new AuraHandledException(ex.getMessage());
@@ -67,7 +67,7 @@ Public static integer getViewsCountByObjectName(String pObjectType){
         Set<String> setObjectApiNames = new Set<String>();
         DateTime minDateTime = getMinDate();
       
-        for (ListView myLW: [select sObjectType from ListView where createdbyid != null and createdbyid != :UserInfo.getUserId() and namespaceprefix = null 
+        for (ListView myLW: [select sObjectType from ListView where createdby.LastName != null and createdbyid != :UserInfo.getUserId() and namespaceprefix = null 
             and sObjectType != null and name != 'all' and createddate > :minDateTime and createdby.firstName != 'Automated' order by sobjecttype]){
             if (!myLW.sObjectType.contains('000000')){
                 setObjectApiNames.add(myLW.sObjectType);
