@@ -29,17 +29,23 @@ public inherited sharing class SfdcRest {
         restRequest.setMethod('GET');
         restRequest.setHeader('Content-Type', 'application/json');
         restRequest.setHeader('Authorization', 'Bearer '+ sessionId);
-        restResponse = httpCall.send(restRequest);
-        responseBody = restResponse.getBody();
-        Map<String, Object> mapKeyToObj = (Map<String, Object>)JSON.deserializeUntyped(responseBody);  
-        for(String key : mapKeyToObj.keyset()) { 
-            if (key=='query'){
-                mapKeyToVal.put(key, (String)mapKeyToObj.get(key));
-            }else if (key=='scope'){
-                mapKeyToVal.put(key, (String)mapKeyToObj.get(key));
+        try{
+            restResponse = httpCall.send(restRequest);
+            if (restResponse.getStatus()=='OK'){
+                responseBody = restResponse.getBody();
+                Map<String, Object> mapKeyToObj = (Map<String, Object>)JSON.deserializeUntyped(responseBody);  
+                for(String key : mapKeyToObj.keyset()) { 
+                    if (key=='query'){
+                        mapKeyToVal.put(key, (String)mapKeyToObj.get(key));
+                    }else if (key=='scope'){
+                        mapKeyToVal.put(key, (String)mapKeyToObj.get(key));
+                    }
+                } 
             }
-        } 
-        
+        }catch(Exception ex){
+            System.debug('SFDCR.GLVD exception: '+ex+' stacktrace: '+ex.getStackTraceString());
+            //do not throw this, as it's simply nice to have information
+        }
         return mapKeyToVal;
     }
     /////////////////////////////////////////////////////////////////////////////////////////////////////
