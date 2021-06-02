@@ -25,7 +25,7 @@ private class ViewManagerTest {
     }
     //////////////////////////////////////////////////////////////////////////
     static testmethod void testBuildWrapper(){
-        ViewManager.PublicViewWrapper myPVW = new ViewManager.PublicViewWrapper ('00B4x00000BbtmLEAR', 'frivolous view', 'frivolous_view', 'Opportunity', '2021-03-09 18:57:01', '2021-03-10 18:57:01', '0054x000003TjxSAAS', 'Joe', 'Dirt', 'Sales', 'everything', 'Amount > 1000');
+        ViewManager.PublicViewWrapper myPVW = new ViewManager.PublicViewWrapper ('00B4x00000BbtmLEAR', 'frivolous view', 'frivolous_view', 'Opportunity', '2021-03-09 18:57:01', '2021-03-10 18:57:01', '0054x000003TjxSAAS', 'Joe', 'Dirt', '0054x000003TjxSAAS', 'Joe', 'Dirt', 'everything', 'Amount > 1000');
         //the constructor is pretty simple, I'm not going to assert each and every value
         System.AssertEquals('frivolous_view',myPVW.DeveloperName);
         List<ViewManager.PublicViewWrapper> lstPVW = new List<ViewManager.PublicViewWrapper>();
