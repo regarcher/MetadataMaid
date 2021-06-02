@@ -69,18 +69,26 @@ Public static integer getViewsCountByObjectName(String pObjectType){
                 setObjectApiNames.add(myLW.sObjectType);
             }
         }
-        //great, I've got the api names now in a set, but, I don't necessarily know their Label, so it seems I need to make another call
-        //Perhaps a describe call?
+        
         Map<String, SObjectType> sObjects = Schema.getGlobalDescribe();
+        List<String> lstNames = new List<String>();
+        Map<String,String> mapLabelToApiName = new  Map<String,String>();
         for (String strApiName:setObjectApiNames){
             if (sObjects.get(strApiName)!=null){
-                Map < String, String > values = new Map < String, String > {
-                    'label' => sObjects.get(strApiName).getDescribe().getLabel(),
-                    'value' => strApiName
-                };
-                options.add(values);
+                String strLabel = sObjects.get(strApiName).getDescribe().getLabel();
+                lstNames.add(strLabel);
+                mapLabelToApiName.put(strLabel,strApiName);
             }
         }
+        lstNames.sort();
+        for (String strLabel:lstNames){
+            Map < String, String > values = new Map < String, String > {
+                'label' => strLabel,
+                'value' => mapLabelToApiName.get(strLabel)
+            };
+            options.add(values);
+        }
+ 
         return options;
     }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
