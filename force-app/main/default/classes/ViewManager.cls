@@ -69,7 +69,7 @@ Public static integer getViewsCountByObjectName(String pObjectType){
                 setObjectApiNames.add(myLW.sObjectType);
             }
         }
-        
+
         Map<String, SObjectType> sObjects = Schema.getGlobalDescribe();
         List<String> lstNames = new List<String>();
         Map<String,String> mapLabelToApiName = new  Map<String,String>();
@@ -93,12 +93,17 @@ Public static integer getViewsCountByObjectName(String pObjectType){
     }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public static String getFilterFromSoql(String pSoql){
-        if (pSoql != null && pSoql.contains('WHERE') && pSoql.contains('ORDER')){
-            //the substring +6 trims off some off the extrainious stuff no one cares about
-            pSoql = pSoql.substring(pSoql.indexOfIgnoreCase('WHERE')+6, pSoql.indexOfIgnoreCase('ORDER'));
-        }else{
-            pSoql = null;
+        try{
+            if (pSoql != null && pSoql.contains('WHERE') && pSoql.contains('ORDER')){
+                //the substring +6 trims off some off the extrainious stuff no one cares about
+                pSoql = pSoql.substring(pSoql.indexOfIgnoreCase('WHERE')+6, pSoql.indexOfIgnoreCase('ORDER'));
+            }else{
+                pSoql = null;
+            }
+        }catch(Exception ex){
+            System.debug('VM.GFFS exception: '+ex+' stacktrace: '+ex.getStackTraceString());
         }
+       
         return pSoql;
     }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
