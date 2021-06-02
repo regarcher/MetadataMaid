@@ -19,13 +19,14 @@ public inherited sharing class ViewManager {
         String strMinDateTime = minDateTime.formatGMT('yyyy-MM-dd\'T\'HH:mm:ss\'Z\'');
         List<ListView> lstListView;
         try {
-            String strQuery = 'SELECT Id, Name, DeveloperName, sObjectType, createdbyid, createdby.FirstName, createdby.LastName, createdby.profile.name, createddate, lastmodifieddate FROM ListView where createdby.LastName != null and createddate > '+ strMinDateTime +' and sobjecttype = \''+strObjectType+'\' and createdbyid != \''+UserInfo.getUserId()+'\' and createdby.firstname != \'Automated\' order by '+strSortBy+' '+strSortOrder+' limit 20';
+            String strQuery = 'SELECT Id, Name, DeveloperName, sObjectType, createdbyid, createdby.FirstName, createdby.LastName, lastmodifiedbyid, lastmodifiedby.FirstName, lastmodifiedby.LastName, createddate, lastmodifieddate FROM ListView where createdby.LastName != null and createddate > '+ strMinDateTime +' and sobjecttype = \''+strObjectType+'\' and createdbyid != \''+UserInfo.getUserId()+'\' and createdby.firstname != \'Automated\' order by '+strSortBy+' '+strSortOrder+' limit 20';
+            System.debug('strQuery: '+strQuery);
             lstListView = Database.query(strQuery);
             for (ListView myLV:lstListView){
                 map<String, String> mapKeytoVal = SfdcRest.getListViewDetails(myLV.sObjectType, myLV.id);
                 String myScope = mapKeyToVal.get('scope');
                 String myFilter = getFilterFromSoql(mapKeyToVal.get('query'));
-                PublicViewWrapper myPVW = new PublicViewWrapper(String.valueof(myLV.id), myLV.name, myLV.DeveloperName, myLV.sObjectType, String.valueof(myLV.createddate), String.valueof(myLV.lastmodifieddate), String.valueOf(myLV.createdbyid), myLV.createdby.FirstName, myLV.createdby.LastName, myLV.createdby.profile.name, myScope, myFilter);
+                PublicViewWrapper myPVW = new PublicViewWrapper(String.valueof(myLV.id), myLV.name, myLV.DeveloperName, myLV.sObjectType, String.valueof(myLV.createddate), String.valueof(myLV.lastmodifieddate), String.valueOf(myLV.createdbyid), myLV.createdby.FirstName, myLV.createdby.LastName, String.valueOf(myLV.LastModifiedById), myLV.lastModifiedBy.FirstName, myLV.lastModifiedBy.LastName, myScope, myFilter);
                 lstRetVal.add(myPVW);
             }
         } catch (Exception ex) {
@@ -157,17 +158,18 @@ Public static integer getViewsCountByObjectName(String pObjectType){
    @testVisible
    private static String convertColumnNameToDbName(String pColumnName){
         //default it up front
+        System.debug('pColumnName: '+pColumnName);
         String strRetVal = 'CreatedDate';
-        if (pColumnName == 'Name'){
+        if (pColumnName == 'LinkView'){
             strRetVal = 'Name';
-        }else if (pColumnName == 'CreatedByName'){
+        }else if (pColumnName == 'LinkUser'){
             strRetVal = 'CreatedBy.LastName';
-        }else if (pColumnName == 'LastModifiedDate'){
-            strRetVal = 'lastmodifieddate';
-        }else if (pColumnName == 'ProfileName'){
-            strRetVal = 'CreatedBy.Profile.name';
+        }else if (pColumnName == 'ModLinkUser'){
+            strRetVal = 'LastModifiedBy.LastName';
         }else if (pColumnName == 'LastModifiedDate'){
             strRetVal = 'LastModifiedDate';
+        }else if (pColumnName == 'CreatedDate'){
+            strRetVal = 'CreatedDate';
         }
         return strRetVal;
    }
@@ -203,11 +205,13 @@ Public static integer getViewsCountByObjectName(String pObjectType){
         @AuraEnabled public String LastModifiedDate;
         @AuraEnabled public String CreatedByName;
         @AuraEnabled public String LinkUser;
-        @AuraEnabled public String ProfileName;
+        @AuraEnabled public String ModByName;
+        @AuraEnabled public String ModLinkUser;
         @AuraEnabled public String Scope;
         @AuraEnabled public String Filter;
         
-        Public PublicViewWrapper (String pViewId, String pName, String pDeveloperName, String pObjectType, String pViewCreatedDate, String pViewLastMod, String pCreatedById, String pCreatedByFirstName, String pCreatedByLastName, String pProfileName, String pScope, String pFilter){
+        Public PublicViewWrapper (String pViewId, String pName, String pDeveloperName, String pObjectType, String pViewCreatedDate, String pViewLastMod, 
+                String pCreatedById, String pCreatedByFirstName, String pCreatedByLastName, String pLastModById, String pModByFirstName, String pModByLastName, String pScope, String pFilter){
             this.ListViewId = pViewId;
             this.Name = pName;
             this.DeveloperName = pDeveloperName;
@@ -217,7 +221,8 @@ Public static integer getViewsCountByObjectName(String pObjectType){
             this.LastModifiedDate = pViewLastMod;
             this.CreatedByName = pCreatedByLastName + ', ' + pCreatedByFirstName;
             this.LinkUser =  URL.getSalesforceBaseUrl().toExternalForm()+'/'+ pCreatedById;
-            this.ProfileName = pProfileName;
+            this.ModByName = pModByLastName + ', ' + pModByFirstName;
+            this.ModLinkUser =  URL.getSalesforceBaseUrl().toExternalForm()+'/'+ pLastModById;
             this.Scope = pScope;
             this.Filter = pFilter;
         }

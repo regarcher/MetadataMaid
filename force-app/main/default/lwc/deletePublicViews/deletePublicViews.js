@@ -13,12 +13,13 @@ export default class DeletePublicViews extends LightningElement {
         
         //{ label: 'View Name', fieldName: 'Name', type: 'text', sortable: true }
         //I just get insufficient privileges when I attempt to click these links...why?
-        { label: 'View Name', initialWidth: 380, fieldName: 'LinkView', type: 'url', typeAttributes: { label: { fieldName: "Name" }, tooltip:"View Name", target: "_blank" }, sortable: true }
+        { label: 'View Name', initialWidth: 340, fieldName: 'LinkView', type: 'url', typeAttributes: { label: { fieldName: "Name" }, tooltip:"View Name", target: "_blank" }, sortable: true }
         ,{ label: 'Last Modified Date', initialWidth: 160, fieldName: 'LastModifiedDate', type: 'text', sortable: true }
+        ,{ label: 'Last Mod By', initialWidth: 160, fieldName: 'ModLinkUser', type: 'url',  typeAttributes: { label: { fieldName: "ModByName" }, tooltip:"User Name", target: "_blank" }, sortable: true }
         ,{ label: 'Created Date', initialWidth: 160, fieldName: 'CreatedDate', type: 'text', sortable: true }
-        ,{ label: 'Created By', initialWidth: 180, fieldName: 'LinkUser', type: 'url',  typeAttributes: { label: { fieldName: "CreatedByName" }, tooltip:"User Name", target: "_blank" }, sortable: true }
+        ,{ label: 'Created By', initialWidth: 160, fieldName: 'LinkUser', type: 'url',  typeAttributes: { label: { fieldName: "CreatedByName" }, tooltip:"User Name", target: "_blank" }, sortable: true }
         ,{ label: 'Scope', initialWidth: 80, fieldName: 'Scope', type: 'text', sortable: false }
-        ,{ label: 'Filter', initialWidth: 1000, fieldName: 'Filter', type: 'text', sortable: false }
+        ,{ label: 'Filter', initialWidth: 900, fieldName: 'Filter', type: 'text', sortable: false }
     ];
 
     @track deleteList;
@@ -52,7 +53,7 @@ export default class DeletePublicViews extends LightningElement {
 			});
 	}
 
-    @wire(getViewsByObjectName, {pObjectType: '$objectName', pSortField : '$sortBy',pSortOrder : '$sortDirection'})
+    @wire(getViewsByObjectName, {pObjectType: '$objectName', pSortBy : '$sortBy',pSortOrder : '$sortDirection'})
     wiredViews(result) {
         
         this.refreshTable = result;
