@@ -6,7 +6,6 @@ public inherited sharing class ViewManager {
     Public static List<PublicViewWrapper> getViewsByObjectName(String pObjectType, String pSortBy, String pSortOrder){
         //the caller passes in an object type, sort field and sort order.  object type is required, sort field defaults to createddate
         //and sort order 
-        System.debug('VM.GVBON pObjectType: '+pObjectType+' pSortBy: '+pSortBy+' pSortORder: '+pSortOrder);
         List<PublicViewWrapper> lstRetVal = new List<PublicViewWrapper>();
         String strObjectType = mdmUtilClass.SanitizeString(pObjectType);
         String strSortBy = convertColumnNameToDbName(pSortBy);
@@ -33,7 +32,6 @@ public inherited sharing class ViewManager {
             System.debug('DM.GVBON exception: '+ex+' stacktrace: '+ex.getStackTraceString());
             throw new AuraHandledException(ex.getMessage());
         }
-        System.debug('VM.GVBON lstRetVal.size: '+lstRetVal.size());
         return lstRetVal;
     }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -42,7 +40,6 @@ Public static integer getViewsCountByObjectName(String pObjectType){
     //the caller passes in an object type, sort field and sort order.  object type is required, sort field defaults to createddate
     //and sort order 
     integer iCount;
-    System.debug('VM.GVCBON pObjectType: '+pObjectType);
     String strObjectType = mdmUtilClass.SanitizeString(pObjectType);
     DateTime minDateTime = getMinDate();
     String strMinDateTime = minDateTime.formatGMT('yyyy-MM-dd\'T\'HH:mm:ss\'Z\'');
@@ -53,7 +50,6 @@ Public static integer getViewsCountByObjectName(String pObjectType){
         System.debug('DM.GVCBON exception: '+ex);
         throw new AuraHandledException(ex.getMessage());
     }
-    System.debug('VM.GVBON iCount: '+iCount);
     return iCount;
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -63,7 +59,6 @@ Public static integer getViewsCountByObjectName(String pObjectType){
         //1. we only show listsViews created exactlhy 1 day after the minimun createddate as I don't want to 
         //show the ones that came with the creation of the Org.
         //2. it might be nice to omit system administrators optionally , but at this moment, I'm uncertain how I'd do that
-        System.debug('VM.GOTPV entry');
         List<Map<String,String>> options = new  List<Map<String,String>> ();
         Set<String> setObjectApiNames = new Set<String>();
         DateTime minDateTime = getMinDate();
@@ -86,7 +81,6 @@ Public static integer getViewsCountByObjectName(String pObjectType){
                 options.add(values);
             }
         }
-        System.debug('VM.GOTPV options.size: '+options.size());
         return options;
     }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -111,13 +105,11 @@ Public static integer getViewsCountByObjectName(String pObjectType){
         // }
         //adding a day, and ommiting everying before that as many list views get added on Org creation
         minDateTime = dtOrgCreated.addDays(1);
-        System.debug('minDateTime: '+minDateTime);
         return minDateTime;
     }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     @AuraEnabled
     public static void deletePublicViews(String pViewRecords){
-        System.debug('VM.DPV pViewRecords: '+pViewRecords);
         try{
             List<PublicViewWrapper> lstPVW = (List<PublicViewWrapper>) JSON.deserialize(pViewRecords, List<PublicViewWrapper>.class);
             if (lstPVW.size()>0){
@@ -158,7 +150,6 @@ Public static integer getViewsCountByObjectName(String pObjectType){
    @testVisible
    private static String convertColumnNameToDbName(String pColumnName){
         //default it up front
-        System.debug('pColumnName: '+pColumnName);
         String strRetVal = 'CreatedDate';
         if (pColumnName == 'LinkView'){
             strRetVal = 'Name';
