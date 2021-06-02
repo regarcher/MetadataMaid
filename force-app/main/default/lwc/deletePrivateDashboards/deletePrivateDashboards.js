@@ -10,7 +10,7 @@ export default class deletePrivateDashboards extends LightningElement {
    //reactive variables
     @track columns = [
         { label: 'User Name', fieldName: 'LinkUser', type: 'url',  typeAttributes: { label: { fieldName: "CreatedByName" }, tooltip:"User Name", target: "_blank" }, sortable: true }
-        ,{ label: 'Dashboard Title', fieldName: 'Title', type: 'text', sortable: false }
+        ,{ label: 'Dashboard Title', fieldName: 'Title', type: 'text', sortable: true }
         ,{ label: 'Dashboard Last Modified', fieldName: 'DashboardLastModified', type: 'text', sortable: true }
         ,{ label: 'User Profile', fieldName: 'ProfileName', type: 'text', sortable: true }
         ,{ label: 'User Last Login', fieldName: 'LastLogin', type: 'text', sortable: true }
