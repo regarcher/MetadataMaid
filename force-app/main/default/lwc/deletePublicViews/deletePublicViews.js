@@ -44,12 +44,15 @@ export default class DeletePublicViews extends LightningElement {
   
     //so, I simply could not get this to work with @wired and I have no idea why
     connectedCallback() {
+        this.isLoading = true;
 		getObjectTypePicklistValues()
 			.then(data => {
 				this.objectTypePicklistValues = data;
+                this.isLoading = false;
 			})
 			.catch(error => {
 				this.error = error;
+                this.isLoading = false;
 			});
 	}
 
