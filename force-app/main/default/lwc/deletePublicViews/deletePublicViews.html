@@ -19,10 +19,17 @@
     
         <div class="slds-col; slds-align-bottom ">
             <div class="slds-p-bottom_x-small">
-                <lightning-button  label="Delete Selected" onclick={handleDeleteViewClick} 
-                disabled={disableButton}></lightning-button>
+                <!--lightning-button  label="Delete Selected" onclick={handleDeleteViewClick} disabled={disableButton}></lightning-button-->
+                <lightning-button label="Delete Selected" icon-name="utility:delete" onclick={handleDeleteClick} disabled={disableButton}></lightning-button>
             </div>
         </div>
+
+        <c-lwc-modal
+            class="confirmation"
+            confirmation={confirmation}
+            onbuttonclick={handleModalButtonClick}>
+        </c-lwc-modal>
+
         <div class="slds-col"></div>
         <div class="slds-col"></div>
     </div>

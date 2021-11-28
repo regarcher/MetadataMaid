@@ -7,6 +7,9 @@ import getObjectTypePicklistValues from '@salesforce/apex/ViewManager.getObjectT
 import deletePublicViews from '@salesforce/apex/ViewManager.deletePublicViews';
 import {refreshApex} from '@salesforce/apex';
 
+//unofficialSF
+import { getConfirmation, handleConfirmationButtonClick } from 'c/lwcModalUtil';
+
 export default class DeletePublicViews extends LightningElement {
     //reactive variables
     @track columns = [
@@ -26,14 +29,19 @@ export default class DeletePublicViews extends LightningElement {
     @track viewList;
     @track objectTypePicklistValues;
     @track objectTypes;
-    @track selectedRecordsCount = 0;
+    //@track selectedRecordsCount = 0; //hmmm, it seems I'm not using this anywhere
     @track retrievedRecordsCount = 0;
     @track totalRecordsCount = 0;
-    @track disableButton = false;
+    @track disableButton = true;
     @track objectName
     @track sortBy = 'CreatedDate';
     @track sortDirection = 'asc';
     @track error;
+
+    //unofficialSF
+    @track confirmation;
+    //confirmModal support
+    @track displayMessage = 'Please select view(s) to be deleted';
 
      // non-reactive variables
      selectedRecords = [];
@@ -42,7 +50,6 @@ export default class DeletePublicViews extends LightningElement {
      refreshCount;
      isLoading = false;
   
-    //so, I simply could not get this to work with @wired and I have no idea why
     connectedCallback() {
         this.isLoading = true;
 		getObjectTypePicklistValues()
@@ -87,11 +94,19 @@ export default class DeletePublicViews extends LightningElement {
 
      processSelectedRecords(event) {
         const selectedRows = event.detail.selectedRows;
-        this.selectedRecordsCount = event.detail.selectedRows.length;
-        this.selectedRecords = [];
-        for (let i = 0; i < selectedRows.length; i++) {
-            this.selectedRecords.push({ListViewId:selectedRows[i].ListViewId, Name:selectedRows[i].Name, DeveloperName:selectedRows[i].DeveloperName, ObjectType:selectedRows[i].ObjectType, Scope:selectedRows[i].Scope});
+        this.disableButton = true;
+        if(selectedRows){
+            //this.selectedRecordsCount = event.detail.selectedRows.length;
+            this.selectedRecords = [];
+            for (let i = 0; i < selectedRows.length; i++) {
+                this.disableButton = false;
+                this.selectedRecords.push({ListViewId:selectedRows[i].ListViewId, Name:selectedRows[i].Name, DeveloperName:selectedRows[i].DeveloperName, ObjectType:selectedRows[i].ObjectType, Scope:selectedRows[i].Scope});
+            }
+        }else{
+            this.disableButton = true;
+            this.displayMessage = 'Please select view(s) to be deleted';
         }
+        
     }
     handleSortdata(event) {
         //Thanks to the following web site for this pattern:
@@ -104,20 +119,12 @@ export default class DeletePublicViews extends LightningElement {
         this.isLoading = true;
      }
 
-     handleDeleteViewClick(event){
-        if (this.selectedRecords) {
-            this.disableButton = true;
-            this.deleteViews();
-        }
-        this.isLoading = true;
-     }
-
      deleteViews(){
         deletePublicViews({pViewRecords: JSON.stringify(this.selectedRecords)})
         .then((result) => {
-            this.disableButton = false;
+            this.disableButton = true;
             this.template.querySelector('lightning-datatable').selectedRows = [];
-            this.selectedRecordsCount = 0;
+            //this.selectedRecordsCount = 0;
             // refreshing table data using refresh apex
             refreshApex(this.refreshCount)
             return refreshApex(this.refreshTable);
@@ -126,12 +133,44 @@ export default class DeletePublicViews extends LightningElement {
             this.error = error.body.message;
         });
    }
-   
+   //this is the picklist where the user selects what type of object he or she wishes to manage
     selectionChangeHandler(event) {
         const objectName = event.target.value;
         this.objectName = objectName;
         this.isLoading = true;
         this.error = '';
-        this.disableButton = false;
+        this.disableButton = true;
 	}
+
+    //from unofficialSF
+    //https://unofficialsf.com/easily-add-confirmation-dialogs-to-your-lightning-components-with-lwcmodal/
+    deleteConfirmationDetails = {
+        text: this.displayMessage,
+        confirmButtonLabel: 'Delete',
+        confirmButtonVariant: 'destructive',
+        cancelButtonLabel: 'Cancel',
+        header: 'Deleted views do NOT go to the Recycle Bin'
+    };
+    //from unofficialSF        
+    handleDeleteClick(event) {
+        this.displayMessage = 'Are you sure you want to delete the following views: ';
+        for (let i = 0; i < this.selectedRecords.length; i++) {
+            this.displayMessage = this.displayMessage + this.selectedRecords[i].Name;
+            if (i<this.selectedRecords.length-1){
+                this.displayMessage = this.displayMessage + ', ';
+            }
+        }
+
+        this.deleteConfirmationDetails['text'] = this.displayMessage;
+        this.confirmation = getConfirmation(
+            this.deleteConfirmationDetails,
+            () => this.deleteViews(), 
+            // optional: () => this.handleCancel()
+        );
+    }
+    //from unofficialSF
+    handleModalButtonClick(event) {
+        handleConfirmationButtonClick(event, this.confirmation);
+    }
+    
 }
