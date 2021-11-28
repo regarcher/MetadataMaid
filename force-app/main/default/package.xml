@@ -37,6 +37,8 @@
     <types>
         <members>deletePrivateDashboards</members>
         <members>deletePublicViews</members>
+        <members>lwcModal</members>
+        <members>lwcModalUtil</members>
         <name>LightningComponentBundle</name>
     </types>
     <version>50.0</version>
