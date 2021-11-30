@@ -18,7 +18,7 @@ public inherited sharing class ViewManager {
         String strMinDateTime = minDateTime.formatGMT('yyyy-MM-dd\'T\'HH:mm:ss\'Z\'');
         List<ListView> lstListView;
         try {
-            String strQuery = 'SELECT Id, Name, DeveloperName, sObjectType, createdbyid, createdby.FirstName, createdby.LastName, lastmodifiedbyid, lastmodifiedby.FirstName, lastmodifiedby.LastName, createddate, lastmodifieddate FROM ListView where createdby.LastName != null and createddate > '+ strMinDateTime +' and sobjecttype = \''+strObjectType+'\' and createdbyid != \''+UserInfo.getUserId()+'\' and createdby.firstname != \'Automated\' order by '+strSortBy+' '+strSortOrder+' limit 20';
+            String strQuery = 'SELECT Id, Name, DeveloperName, sObjectType, createdbyid, createdby.FirstName, createdby.LastName, lastmodifiedbyid, lastmodifiedby.FirstName, lastmodifiedby.LastName, createddate, lastmodifieddate FROM ListView where createdby.LastName != null and createddate > '+ strMinDateTime +' and sobjecttype = \''+strObjectType+'\' and createdbyid != \''+UserInfo.getUserId()+'\' and createdby.firstname != \'Automated\' order by '+strSortBy+' '+strSortOrder;
             System.debug('strQuery: '+strQuery);
             lstListView = Database.query(strQuery);
             for (ListView myLV:lstListView){
