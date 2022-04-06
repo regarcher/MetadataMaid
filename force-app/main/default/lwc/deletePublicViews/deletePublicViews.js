@@ -149,7 +149,7 @@ export default class DeletePublicViews extends LightningElement {
         confirmButtonLabel: 'Delete',
         confirmButtonVariant: 'destructive',
         cancelButtonLabel: 'Cancel',
-        header: 'Deleted views do NOT go to the Recycle Bin'
+        header: 'Deleted Views do NOT go to the Recycle Bin'
     };
     //from unofficialSF        
     handleDeleteClick(event) {
