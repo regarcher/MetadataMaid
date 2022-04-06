@@ -1,0 +1,69 @@
+<template>
+    <div class="slds-grid">
+        <div class="slds-form-element; slds-col">
+            <label class="slds-form-element__label">
+                <span class="">Mode</span>
+            </label>
+            <div class="slds-form-element__control; slds-p-bottom_small" style="width: 200px;">
+                <div class="slds-select_container">
+                    <select class="slds-select" onchange={selectionChangeHandler} >
+                        <option value="Select Action">Select Action</option>
+                        <option value="Transfer">Transfer Users</option>
+                        <option value="Delete">Delete Profile</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="slds-col; slds-align-bottom ">
+            <div class="slds-p-bottom_x-small">
+                <template if:true={showDeleteBtn}>
+                    <lightning-button label="Delete Profile" icon-name="utility:delete" onclick={handleDeleteClick} ></lightning-button>
+                </template>
+                <template if:true={showTransferBtn}>
+                    <lightning-button label="Transfer Users" icon-name="utility:forward" onclick={handleTransferClick} ></lightning-button>
+                </template>
+            </div>
+        </div>
+        <div class="slds-col"></div>
+        <div class="slds-col"></div>
+        <c-lwc-modal
+            class="confirmation"
+            confirmation={confirmation}
+            onbuttonclick={handleModalButtonClick}>
+        </c-lwc-modal>
+    </div>
+    <div>
+        <template if:true={isLoading}>
+            <div class="slds-p-around_x-large">
+                <lightning-spinner alternative-text="Loading" size="large" variant="brand"></lightning-spinner>
+            </div>
+        </template>
+    </div>
+    <div style="height: 550px;">
+        <!--reggie, I think I want to do these one at a time-->
+        <!--reggie, I also need some sort of blocking that does not allow delete of standard-->
+         <!--reggie, In fact, I think I don't even want to show any Standards on the delete page-->
+        <lightning-datatable
+                key-field="ProfileId"
+                data={profileList}
+                columns={columns}
+                wrap-text-max-lines="3"
+                max-row-selection=1
+                selected-rows={selectedRows}
+                onrowselection={processSelectedRecord}
+                sorted-by={sortBy}
+                sorted-direction={sortDirection}
+                onsort={doSorting}
+                >
+        </lightning-datatable>
+        <template if:true={error}>
+            {error}
+        </template>
+      </div>
+      <div class="slds-p-around_medium lgc-bg">
+        <br>Purpose<lightning-helptext content="List Profiles, Transfer Users between Profiles, and also Delete eligible Profiles"></lightning-helptext>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Data Scope<lightning-helptext content="You may only delete profiles that are Custom and have no users assigned to it and was created more than one hour after the creation of the org."></lightning-helptext>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Column Sorting<lightning-helptext content="Float your mouse over each column to see if it's sortable"></lightning-helptext>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Recycle Bin<lightning-helptext content="Deleted profiles WILL end up in the recycle bin."></lightning-helptext>
+    </div>
+</template>
