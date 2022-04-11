@@ -25,7 +25,7 @@ export default class ProfileManager extends LightningElement {
      @track sortDirection = 'asc';
      @track retrievedRecordsCount = 0;
      @track totalRecordsCount = 0;
-     @track selectedRows;
+     @track selectedRows = [];
      @track selectedProfileId;
      @track selectedProfileName;
      @track mode = 'Select Action';
@@ -40,6 +40,9 @@ export default class ProfileManager extends LightningElement {
      recordCountMessage;
      showDeleteBtn = false;
      showTransferBtn = false;
+     showTransferBackBtn = false;
+     isTransferFrom = false;
+     isTransferTo = false;
      refreshCount;
      isLoading = false;
   
@@ -53,11 +56,22 @@ export default class ProfileManager extends LightningElement {
             if (result.data) {
                 this.isLoading = false;
                 this.retrievedRecordsCount = result.data.length;
+                this.profileList = result.data;
                 if (result.data.length===0){
                     this.totalRecordsCount = result.data.length;
+                }else if(this.isTransferFrom && this.selectedProfileId){ 
+                    let my_ids = [];
+                    for (let i = 0; i < result.data.length; i++) {
+                        if (this.selectedProfileId && this.selectedProfileId === result.data[i].ProfileId){
+                            my_ids.push(this.selectedProfileId);
+                        }
+                    }
+                    this.selectedRows = my_ids;
                 }
-                this.profileList = result.data;
+               
+                //this.profileList = result.data;
                 this.recordCountMessage = 'Records retrieved: '+this.retrievedRecordsCount+' of '+this.totalRecordsCount;
+                console.log(this.recordCountMessage);
             } else if (result.error) {
                 this.isLoading = false;
                 this.error = error.body.message;
@@ -71,19 +85,20 @@ export default class ProfileManager extends LightningElement {
      
         //this is the picklist where the user selects what mode is desired
      selectionChangeHandler(event) {
+        this.selectedRows = null;
+        this.selectedProfileId = null;
+        this.selectedProfileName = null;
         this.mode = event.target.value;
         if (this.mode=='Delete'){
             this.showDeleteBtn = true;
             this.showTransferBtn = false;
+            this.isTransferFrom = false;
+            this.isTransferTo = false;
         }else if (this.mode=='Transfer'){
             this.showDeleteBtn = false;
             this.showTransferBtn = true;
-        }else{
-            this.showDeleteBtn = false;
-            this.showTransferBtn = false;
-            this.profileList = null;
-            this.selectedProfileId = null;
-            this.selectedProfileName = null;
+            this.isTransferFrom = true;
+            this.isTransferTo = false;
         }
 	}
 
@@ -157,8 +172,29 @@ export default class ProfileManager extends LightningElement {
     //from unofficialSF        
     handleTransferClick(event) {
       //so, I probably want to only allow one at a time
-      alert('It\'s not plugged in yet.');
+      //alert('It\'s not plugged in yet.  Profile name: '+this.selectedProfileName);
+      //we know our this.mode
+      //when they click this button, we want to show another page, but this one has all the recods
+        if (this.selectedProfileId == null){ 
+            //pop an error
+            alert('Please select a Profile to Transfer From');
+        }else{
+            this.mode = 'TransferTo';
+            this.showTransferBackBtn = true;
+            this.isTransferFrom = false;
+            this.isTransferTo = true;
+        }
     }
+
+    handleTransferBackClick(event) {
+        //so, I probably want to only allow one at a time
+        //we know our this.mode
+        //when they click this button, we want to show another page, but this one has all the recods
+        this.mode = 'Transfer';
+        this.showTransferBackBtn = false;
+        this.isTransferFrom = true;
+        this.isTransferTo = false;
+      }
 
      //from unofficialSF
      handleModalButtonClick(event) {

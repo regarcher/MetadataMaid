@@ -19,6 +19,9 @@
                 <template if:true={showDeleteBtn}>
                     <lightning-button label="Delete Profile" icon-name="utility:delete" onclick={handleDeleteClick} ></lightning-button>
                 </template>
+                <template if:true={showTransferBackBtn}>
+                    <lightning-button label="Back" icon-name="utility:back" onclick={handleTransferBackClick} ></lightning-button>
+                </template>
                 <template if:true={showTransferBtn}>
                     <lightning-button label="Transfer Users" icon-name="utility:forward" onclick={handleTransferClick} ></lightning-button>
                 </template>
@@ -32,6 +35,14 @@
             onbuttonclick={handleModalButtonClick}>
         </c-lwc-modal>
     </div>
+    <div class="slds-col; slds-align-center; slds-p-around_small ">
+        <template if:true={isTransferFrom}>
+            ~~~ TRANSFER FROM ~~~
+        </template>
+        <template if:true={isTransferTo}>
+            ~~~ TRANSFER TO ~~~
+        </template>
+    </div>
     <div>
         <template if:true={isLoading}>
             <div class="slds-p-around_x-large">
@@ -40,9 +51,6 @@
         </template>
     </div>
     <div style="height: 550px;">
-        <!--reggie, I think I want to do these one at a time-->
-        <!--reggie, I also need some sort of blocking that does not allow delete of standard-->
-         <!--reggie, In fact, I think I don't even want to show any Standards on the delete page-->
         <lightning-datatable
                 key-field="ProfileId"
                 data={profileList}
@@ -62,7 +70,7 @@
       </div>
       <div class="slds-p-around_medium lgc-bg">
         <br>Purpose<lightning-helptext content="List Profiles, Transfer Users between Profiles, and also Delete eligible Profiles"></lightning-helptext>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Data Scope<lightning-helptext content="You may only delete profiles that are Custom and have no users assigned to it and was created more than one hour after the creation of the org."></lightning-helptext>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Data Scope<lightning-helptext content="Transfers start from profiles with users assigned to them, either active or inactive.  Deletes start with profiles that are Custom, have no users assigned to it, and was created more than one hour after the creation of the org."></lightning-helptext>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Column Sorting<lightning-helptext content="Float your mouse over each column to see if it's sortable"></lightning-helptext>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Recycle Bin<lightning-helptext content="Deleted profiles WILL end up in the recycle bin."></lightning-helptext>
     </div>
