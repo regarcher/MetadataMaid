@@ -3,9 +3,11 @@
 <template>
     <lightning-button class="slds-m-top_small" label="Delete Selected" onclick={handleDeletePrivateClick} 
         disabled={disableButton}></lightning-button>
-    <div style="height: 600px;">
+    <div style="height: 600px;" class="slds-m-top_small">
         <template if:false={error}>
+            <div class="slds-m-bottom_small">
             <p><lightning-formatted-text value={recordCountMessage} ></lightning-formatted-text></p>
+            </div>
             <lightning-datatable data={dashboardList} columns={columns} 
                 key-field="DashboardId" 
                 onrowselection={processSelectedRecords}   
