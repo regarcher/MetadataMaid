@@ -24,7 +24,7 @@ Sure, you could have, should have, and even may have locked down users ability t
 The intent of this tab is to put all the views in one place and give you the opportunity to mass delete them if you wish to.  Maybe you don't even do it yourself, maybe you send a list to be cleaned up to individual users or to group leaders?
 
 ## Why Profile User Maid
-So, you could have probably done most everything this tab does by writing reports, exporting the data, and changing the profile ids in the .csv, and updating the users with new profiles via the Dataloader.  You might even be better off doing that, depending.  This tool has done much of the heavy lifting for you.  One of the things the former approach is probably better at is the modification of hundreds or even thousands of users.  This tool is probably better at numbers in the tens, to be honest.
+So, you could have probably done most everything this tab does by writing reports, exporting the data, changing the profile ids in the .csv, and updating the users via the Dataloader.  You might even be better off doing that, depending.  This tool has done much of the heavy lifting for you.  One of the things the former approach is probably better at is the modification of hundreds or even thousands of users.  This tool is probably better at numbers in the tens, to be honest.
 
 Once you've emptied out a custom profile of users, this tool will assist you in deleting those empty profiles.
 
