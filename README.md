@@ -98,6 +98,9 @@ Coming soon (hopefully in June 2022).  This would be the preferred method as the
 
 ## Future Dreams
 Right now I'm only offering you the Private Dashboard Maid, Public View Maid, and Profile User Maid, but yes, I hope to add more tabs to the Application.  Up next might be a Layout Maid which seems the next logical step once unneeded Profiles have been cleaned up using the Profile User Maid.
+
+I would like to perform pagination on the Datatable and also add some filtering logic as right now the only way to get a different set of rows is to sort the columns.
+
 Unfortunately, private Reports cannot be deleted or moved without logging in as the user.  I did not find an easy way to programatically login as a user and thus I do not intend to provide the ability to delete private Reports.
 
 ```apex
