@@ -75,6 +75,9 @@ Deletions of Views are done via SOAP API.
 
 Note that we can not insert a Report, Dashboard, or View and thus it is very difficult to perform assertions.  The test classes are only here to provide code coverage.
 
+## Installation as a Package via URL
+Coming soon (hopefully in June 2022)
+
 ## Installation From Github to Salesforce via Workbench
 1. Download the zip from from Github using the green Code button/dropdown.
 2. Unzip the file.
