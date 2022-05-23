@@ -1,6 +1,6 @@
 ## Why MetdataMaid
 
-MetadataMaid is made up of a series of tabs, currently just Private Dashboard Maid and Public View Maid, that may help you keep your Org just a bit cleaner.
+MetadataMaid is made up of a series of tabs, currently just Private Dashboard Maid, Public View Maid, and Profile User Maid, that may help you keep your Org just a bit cleaner.
 
 ## Why Private Dashboard Maid
 As you probably know, Salesforce has a Mass Delete Records -> Mass Delete Reports function that is somewhat useful, but some deletes can be blocked from deletion if they’re included in a Dashboard.  You may find or suspect that inactive users have private dashboards that are blocking your report deletes.  In order to delete those you have to find the inactive users that have private Dashboards and for each one perform the following:
