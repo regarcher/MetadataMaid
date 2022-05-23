@@ -24,7 +24,7 @@ Sure, you could have, should have, and even may have locked down users ability t
 The intent of this tab is to put all the views in one place and give you the opportunity to mass delete them if you wish to.  Maybe you don't even do it yourself, maybe you send a list to be cleaned up to individual users or to group leaders?
 
 ## Why Profile User Maid
-This tool is a quick way to see active and inactive user counts by profile, transfer users to different profiles, and delete profiles.  Its capabilities are fairly light however in that it is good at trasfering tens of users.  If you're looking to transfer hundreds or thousands of users, you'll probably want to take the traditional approach of writing reports, exporting the data, changing the profile ids in the .csv, and updating the users via the Dataloader.  
+This tool is a quick way to see active and inactive user counts by profile, transfer users to different profiles, and delete profiles that are both custom and empty.  Its capabilities are fairly light however in that it is good at trasfering tens of users.  If you're looking to transfer hundreds or thousands of users, you'll probably want to take the traditional approach of writing reports, exporting the data, changing the profile ids in the .csv, and updating the users via the Dataloader.  
 
 ## Required Settings
 1. You must use My Domain as LWC is utilized in this solution.
