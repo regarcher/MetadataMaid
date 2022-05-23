@@ -77,6 +77,7 @@ Note that we can not insert a Report, Dashboard, or View and thus it is very dif
 Coming soon (hopefully in June 2022).  This would be the preferred method as the classes will have a custom package prefix on them which will help avoid naming conficts and will also help with removal of classes if desired.
 
 ## Installation From Github to Salesforce via Workbench
+Note that this approach will create an unmanaged package in your org.  If you install it into a production org you may not upgrade or delete the package in a sandbox that received this package from the production installation.  You may however delete the package in a production org.
 1. Download the zip from from Github using the green Code button/dropdown.
 2. Unzip the file.
 3. Navigate INTO the force-app/main/default folder and zip/compress the CONTENTS.  The outcome on a mac should be something like Archive.zip, NOT default.zip.
