@@ -94,7 +94,7 @@ Note that we can not insert a Report, Dashboard, or View and thus it is very dif
 3. 
 
 ## Future Dreams
-Right now I'm only offering you the Private Dashboard Maid and Public View Maid, but yes, I hope to add more tabs to the Application.  
+Right now I'm only offering you the Private Dashboard Maid, Public View Maid, and Profile User Maid, but yes, I hope to add more tabs to the Application.  Up next might be a Layout Maid which seems the next logical step once unneeded Profiles have been cleaned up using the Profile User Maid.
 Unfortunately, private Reports cannot be deleted or moved without logging in as the user.  I did not find an easy way to programatically login as a user and thus I do not intend to provide the ability to delete private Reports.
 
 ```apex
