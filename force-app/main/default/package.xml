@@ -47,7 +47,7 @@
         <members>deletePublicViews</members>
         <members>lwcModal</members>
         <members>lwcModalUtil</members>
-        <members>ProfileManager</members>
+        <members>profileManager</members>
         <name>LightningComponentBundle</name>
     </types>
     <version>50.0</version>
