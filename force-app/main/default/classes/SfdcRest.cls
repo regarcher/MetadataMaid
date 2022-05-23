@@ -11,7 +11,15 @@ public inherited sharing class SfdcRest {
         //Make sure your Salesforce instance URL is added in remote site settings
         // Make sure you're doing defensive programming (dappleman)
         String sfdcURL = URL.getSalesforceBaseUrl().toExternalForm();
-        String restAPIURL = sfdcURL + '/services/data/v51.0/analytics/dashboards/'+ pDashboardId; 
+        String restAPIURL = sfdcURL + '/services/data/v53.0/analytics/dashboards/'+ pDashboardId; 
+        return deleteRestCall(restAPIURL);
+    }
+    /////////////////////////////////////////////////////////////////////////////////////////////
+    public static boolean deleteProfile(String pProfileId){
+        //Make sure your Salesforce instance URL is added in remote site settings
+        // Make sure you're doing defensive programming (dappleman)
+        String sfdcURL = URL.getSalesforceBaseUrl().toExternalForm();
+        String restAPIURL = sfdcURL + '/services/data/v54.0/sobjects/Profile/'+ pProfileId; 
         return deleteRestCall(restAPIURL);
     }
     /////////////////////////////////////////////////////////////////////////////////////////////
