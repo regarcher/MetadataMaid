@@ -8,9 +8,15 @@
         <members>mdService</members>
         <members>mdServiceTest</members>
         <members>MetaMaidHttpCalloutMock</members>
+        <members>ProfileManager</members>
+        <members>ProfileManagerTest</members>
+        <members>ProfileUserWrapper</members>
+        <members>SelectUsersManager</members>
+        <members>SelectUsersManagerTest</members>
         <members>SfdcRest</members>
         <members>SfdcRestTest</members>
         <members>mdmUtilClass</members>
+        <members>UserWrapper</members>
         <members>ViewManager</members>
         <members>ViewManagerTest</members>
         <name>ApexClass</name>
@@ -26,12 +32,14 @@
     <types>
         <members>Private_Dashboard_Maid</members>
         <members>Public_View_Maid</members>
+        <members>Profile_User_Maid</members>
         <name>CustomTab</name>
     </types>
     <types>
         <members>Metadata_Maid_UtilityBar</members>
         <members>Private_Dashboard_Maid</members>
         <members>Public_View_Maid</members>
+        <members>Profile_User_Maid</members>
         <name>FlexiPage</name>
     </types>
     <types>
@@ -39,6 +47,7 @@
         <members>deletePublicViews</members>
         <members>lwcModal</members>
         <members>lwcModalUtil</members>
+        <members>ProfileManager</members>
         <name>LightningComponentBundle</name>
     </types>
     <version>50.0</version>

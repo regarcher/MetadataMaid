@@ -1,12 +1,13 @@
 <template>
     <div class="slds-grid">
+        <!--~~~~~~~~~~~~~~~~~~~~~~~ MODE SELECTION ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
         <div class="slds-form-element; slds-col">
             <label class="slds-form-element__label">
                 <span class="">Mode</span>
             </label>
             <div class="slds-form-element__control; slds-p-bottom_small" style="width: 200px;">
                 <div class="slds-select_container">
-                    <select class="slds-select" onchange={selectionChangeHandler} >
+                    <select id="selectMode" name="selectModeName" class="slds-select" onchange={selectionChangeHandler} >
                         <option value="Select Action">Select Action</option>
                         <option value="Transfer">Transfer Users</option>
                         <option value="Delete">Delete Profile</option>
@@ -14,35 +15,67 @@
                 </div>
             </div>
         </div>
+        <!--~~~~~~~~~~~~~~~~~~~~~~~ BUTTON ROW ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
         <div class="slds-col; slds-align-bottom ">
             <div class="slds-p-bottom_x-small">
-                <template if:true={showDeleteBtn}>
+                <template if:true={isDeleteMode}>
                     <lightning-button label="Delete Profile" icon-name="utility:delete" onclick={handleDeleteClick} ></lightning-button>
                 </template>
                 <template if:true={showTransferBackBtn}>
                     <lightning-button label="Back" icon-name="utility:back" onclick={handleTransferBackClick} ></lightning-button>
                 </template>
-                <template if:true={showTransferBtn}>
-                    <lightning-button label="Transfer Users" icon-name="utility:forward" onclick={handleTransferClick} ></lightning-button>
+                <template if:true={isTransferFrom}>
+                    <lightning-button label="Select TO Profile" icon-name="utility:forward" onclick={handleSelectToProfileClick} ></lightning-button>
+                </template>
+                <template if:true={isTransferTo}>
+                    <lightning-button label="Select Users" icon-name="utility:forward" onclick={handleSelectUsersClick} ></lightning-button>
+                </template>
+                <template if:true={isSelectUsers}>
+                    <lightning-button label="Transfer" onclick={saveTransferUsersClick} ></lightning-button>
+                </template>
+                <template if:true={isTransferComplete}>
+                    <lightning-button label="Done" onclick={handleTrasferCompleted} ></lightning-button>
+                </template>
+                <template if:true={showCancelBtn}>
+                    <lightning-button label="Cancel" onclick={resetPage} ></lightning-button>
                 </template>
             </div>
         </div>
         <div class="slds-col"></div>
         <div class="slds-col"></div>
+        <!--~~~~~~~~~~~~~~~~~~~~~~~ Confirm Action ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
         <c-lwc-modal
             class="confirmation"
             confirmation={confirmation}
             onbuttonclick={handleModalButtonClick}>
         </c-lwc-modal>
     </div>
-    <div class="slds-col; slds-align-center; slds-p-around_small ">
+    <!--~~~~~~~~~~~~~~~~~~~~~~~ TRANSFTER LABELS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+    <div class="slds-col; slds-align-center; slds-p-around_large ">
         <template if:true={isTransferFrom}>
-            ~~~ TRANSFER FROM ~~~
+            TRANSFER FROM PROFILE: {selectedProfileName}
         </template>
         <template if:true={isTransferTo}>
-            ~~~ TRANSFER TO ~~~
+            TRANSFER FROM PROFILE: {selectedProfileName}
+            <BR/>
+            TRANSFER TO PROFILE:  {selectedToProfileName}
+        </template>
+        <template if:true={isSelectUsers}>
+            TRANSFER FROM PROFILE: {selectedProfileName}
+            <BR/>
+            TRANSFER TO PROFILE:  {selectedToProfileName}
+            <BR/>
+            SELECT USERS NOW...  
+        </template>
+        <template if:true={isTransferComplete}>
+            TRANSFER FROM PROFILE: {selectedProfileName}
+            <BR/>
+            TRANSFER TO PROFILE:  {selectedToProfileName}
+            <BR/>
+            USERS TRANSFERRED SUCCESSFULLY! 
         </template>
     </div>
+    <!--~~~~~~~~~~~~~~~~~~~~~~~ LOADING SPINNER  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
     <div>
         <template if:true={isLoading}>
             <div class="slds-p-around_x-large">
@@ -50,28 +83,72 @@
             </div>
         </template>
     </div>
-    <div style="height: 550px;">
-        <lightning-datatable
-                key-field="ProfileId"
-                data={profileList}
-                columns={columns}
-                wrap-text-max-lines="3"
-                max-row-selection=1
-                selected-rows={selectedRows}
-                onrowselection={processSelectedRecord}
-                sorted-by={sortBy}
-                sorted-direction={sortDirection}
-                onsort={doSorting}
-                >
-        </lightning-datatable>
-        <template if:true={error}>
-            {error}
-        </template>
-      </div>
-      <div class="slds-p-around_medium lgc-bg">
-        <br>Purpose<lightning-helptext content="List Profiles, Transfer Users between Profiles, and also Delete eligible Profiles"></lightning-helptext>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Data Scope<lightning-helptext content="Transfers start from profiles with users assigned to them, either active or inactive.  Deletes start with profiles that are Custom, have no users assigned to it, and was created more than one hour after the creation of the org."></lightning-helptext>
+    <!--~~~~~~~~~~~~~~~~~~~~~~~ BASE PROFILE LIST USED FOR BOTH FROM PROFILE LIST AND DELETE PROFILE LIST ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+    <template if:true={useBaseProfileList}>
+        <div style="height: 550px;">
+            <template if:true={error}>
+                Error: {error}
+            </template>
+            <lightning-datatable
+                    key-field="ProfileId"
+                    data={baseProfileList}
+                    columns={profileColumns}
+                    wrap-text-max-lines="3"
+                    max-row-selection=1
+                    selected-rows={selectedRows}
+                    onrowselection={processSelectedBaseProfileRecord}
+                    sorted-by={sortProfileBy}
+                    sorted-direction={sortProfileOrder}
+                    onsort={doBaseProfileSorting}
+                    >
+            </lightning-datatable>
+            
+        </div>
+    </template>
+    <!--~~~~~~~~~~~~~~~~~~~~~~~ TRANSFER TO PROFILE LIST ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+    <template if:true={isTransferTo}>
+        <div style="height: 550px;">
+            <template if:true={error}>
+                Error: {error}
+            </template>
+            <lightning-datatable
+                    key-field="ProfileId"
+                    data={toProfileList}
+                    columns={profileColumns}
+                    wrap-text-max-lines="3"
+                    max-row-selection=1
+                    selected-rows={selectedRows}
+                    onrowselection={processSelectedToProfileRecord}
+                    sorted-by={sortProfileBy}
+                    sorted-direction={sortProfileOrder}
+                    onsort={doToProfileSorting}
+                    >
+            </lightning-datatable>
+        </div>
+    </template>
+    <!--~~~~~~~~~~~~~~~~~~~~~~~ SELECT USERS LIST ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+    <template if:true={isUserOps}>
+        <div style="height: 550px;">
+            <template if:true={error}>
+                Error: {error}
+            </template>
+            <lightning-datatable
+                data={userList}
+                columns={userColumns}
+                key-field="UserId"
+                onrowselection={processSelectedToUserRecord}
+                sorted-by={sortByFieldUser}
+                sorted-direction={sortDirectionUser}
+                onsort={doUserSorting}
+            >
+            </lightning-datatable>
+        </div>
+    </template>
+    <!--~~~~~~~~~~~~~~~~~~~~~~~ HELP AND INFO FOOTER ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+     <div class="slds-p-around_medium lgc-bg">
+        <br>Purpose<lightning-helptext content="List Profiles, Transfer Users between Profiles, and also Delete eligible Profiles.  Please note that writing your own reports and performing transfers via dataloader is a much more powerful option than using this tab's functionality.  The first screen of the transfer tab does give a quick view however of active and inactive user counts per profile.  Do note that dataloader will not allow you to delete profiles."></lightning-helptext>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Data Scope<lightning-helptext content="Transfers start from profiles with users assigned to them, either active or inactive.  Note that this tool does not enforce the Salesforce's best practice of not assigning users to standard profiles, but it does put a WARNING icon on standard profiles.  Users with the WARNING icon are those users that Salesforce created when your Org was created.  The Delete list has profiles that are Custom, have no users assigned to them, and was created more than one hour after the creation of the org."></lightning-helptext>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Column Sorting<lightning-helptext content="Float your mouse over each column to see if it's sortable"></lightning-helptext>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Recycle Bin<lightning-helptext content="Deleted profiles WILL end up in the recycle bin."></lightning-helptext>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Recycle Bin (NOT!)<lightning-helptext content="Deleted profiles will NOT end up in the recycle bin."></lightning-helptext>
     </div>
 </template>
