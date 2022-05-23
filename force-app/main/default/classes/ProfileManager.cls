@@ -1,17 +1,24 @@
 public with sharing class ProfileManager {
-
-    @AuraEnabled(cacheable=true)
-    public static List<ProfileUserWrapper> getProfilesWithUserCounts(String pMode){
+    @AuraEnabled
+    public static List<ProfileUserWrapper> getProfilesWithUserCounts(String pMode, String pSortField, String pSortOrder){
+        //Note that none of the passed parameters are used in Soql statements
         //this method is used by both the transfer and delete modes with the filtering happening late in the process
-            
+        System.debug('PM.GPWUC pMode: '+pMode + 'pSortField: '+ pSortField+' pSortOrder: '+pSortOrder);
         List<ProfileUserWrapper> lstRetVal = new List<ProfileUserWrapper>();
         try{
             Map<id, Profile> mapProfileIdToProfile = new  Map<id, Profile>();
             Map<string, string> mapProfileIdToActiveUserCount = new  Map<string, string>();
             Map<string, string> mapProfileIdToInactiveUserCount = new  Map<string, string>();
             Map<id, boolean> mapProfileIdToIsCustom = new Map<id, boolean>();
-            DateTime dtCreateddatePlusOneHour;
-    
+            
+            //decided against this in favor of the IsOwnedByProfile soql query approach below
+            //DateTime dtCreateddatePlusOneHour;
+            //We only want to allow the user to delete those profiles that were created by the Org's users, not as part of Salesforce's Org setup
+            // if (pMode == 'Delete'){
+            //     Organization myO = [SELECT CreatedDate FROM Organization];
+            //     dtCreateddatePlusOneHour = myO.Createddate.addHours(1);
+            // }
+            
             if (!'Delete'.equals(pMode) && !'Transfer'.equals(pMode) && !'TransferTo'.equals(pMode)){
                 return lstRetVal;
             }
@@ -21,22 +28,30 @@ public with sharing class ProfileManager {
                 mapProfileIdToIsCustom.put(myPS.ProfileId, myPS.IsCustom);
             }
 
-            //We only want to allow the user to delete those profiles that were created by the Org's users, not as part of Salesforce's Org setup
-            if (pMode == 'Delete'){
-                Organization myO = [SELECT CreatedDate FROM Organization];
-                dtCreateddatePlusOneHour = myO.Createddate.addHours(1);
-            }
-
+            System.debug('mapProfileIdToIsCustom.size(): '+mapProfileIdToIsCustom.size());
+            
             List<AggregateResult> lstActiveAggRes = [select count(id) cnt, profileid from user where isActive = true group by profileid];
             for (AggregateResult myAR:lstActiveAggRes){
-                //reggie, need to protect against nulls, somehow
-                mapProfileIdToActiveUserCount.put(String.valueOf(myAR.get('profileid')),String.valueOf(myAR.get('cnt')));
+                if (myAR.get('profileid')!=null && myAR.get('cnt') !=null){
+                    mapProfileIdToActiveUserCount.put(String.valueOf(myAR.get('profileid')),String.valueOf(myAR.get('cnt')));
+                }
             }
             
+            //OK, so I found that the approach above for finding Custom Profiles is suspect (IsOwnedByProfile soql filter)
+            //For instance, Read Only profile does come with your org, but, it does not show up in that list....so, I'm going
+            //to also add all profiles created within one hour of the Org creation to this list.  Note that all the other ones
+            //start off with Custom, so I'm going to treat them as custom
+            for (Profile myP:mapProfileIdToProfile.values()){
+                if (myP.name == 'Read Only'){
+                    mapProfileIdToIsCustom.put(myP.id, false);
+                }
+            }
+          
             List<AggregateResult> lstInactiveAggRes = [select count(id) cnt, profileid from user where isActive = false group by profileid];
             for (AggregateResult myAR:lstInactiveAggRes){
-                //reggie, need to protect against nulls, somehow
-                mapProfileIdToInactiveUserCount.put(String.valueOf(myAR.get('profileid')),String.valueOf(myAR.get('cnt')));
+                if(myAR.get('profileid')!=null && myAR.get('cnt')!=null){
+                    mapProfileIdToInactiveUserCount.put(String.valueOf(myAR.get('profileid')),String.valueOf(myAR.get('cnt')));
+                }
             }
 
             for (id myProId:mapProfileIdToProfile.keyset()){
@@ -45,73 +60,26 @@ public with sharing class ProfileManager {
                 //Also note that it seems logical to me that we would want to only allow transfers if you DO have user counts (either active or inactive)
                 Profile myP = mapProfileIdToProfile.get(myProId);
                 if (pMode=='Transfer' && (mapProfileIdToActiveUserCount.get(myP.id)!=null || mapProfileIdToInactiveUserCount.get(myP.id)!=null)){
-                    lstRetVal.add(new ProfileUserWrapper(myP, mapProfileIdToIsCustom.get(myP.id), mapProfileIdToActiveUserCount.get(myP.id), mapProfileIdToInactiveUserCount.get(myProId)));
-                }else if (pMode=='Delete' && mapProfileIdToIsCustom.get(myP.id) && mapProfileIdToActiveUserCount.get(myP.id)==null && mapProfileIdToInactiveUserCount.get(myP.id)==null && myP.createddate > dtCreateddatePlusOneHour){
-                    lstRetVal.add(new ProfileUserWrapper(myP, mapProfileIdToIsCustom.get(myP.id), mapProfileIdToActiveUserCount.get(myP.id), mapProfileIdToInactiveUserCount.get(myP.id))); 
+                    lstRetVal.add(new ProfileUserWrapper(myP, mapProfileIdToIsCustom.get(myP.id), mapProfileIdToActiveUserCount.get(myP.id), mapProfileIdToInactiveUserCount.get(myProId), pSortField, pSortOrder));
+                }else if (pMode=='Delete' && mapProfileIdToIsCustom.get(myP.id) && mapProfileIdToActiveUserCount.get(myP.id)==null && mapProfileIdToInactiveUserCount.get(myP.id)==null && mapProfileIdToIsCustom.get(myP.id)){
+                    lstRetVal.add(new ProfileUserWrapper(myP, mapProfileIdToIsCustom.get(myP.id), mapProfileIdToActiveUserCount.get(myP.id), mapProfileIdToInactiveUserCount.get(myP.id), pSortField, pSortOrder)); 
                 }else if (pMode=='TransferTo'){
                     //All profiles are included here
                     //Note however that users should NOT be tranferring to to standard profiles!!!!!
-                    lstRetVal.add(new ProfileUserWrapper(myP, mapProfileIdToIsCustom.get(myP.id), mapProfileIdToActiveUserCount.get(myP.id), mapProfileIdToInactiveUserCount.get(myProId)));
+                    lstRetVal.add(new ProfileUserWrapper(myP, mapProfileIdToIsCustom.get(myP.id), mapProfileIdToActiveUserCount.get(myP.id), mapProfileIdToInactiveUserCount.get(myProId), pSortField, pSortOrder));
                 }
             }
         }catch(Exception ex){
             System.debug(' ex: '+ex.getMessage());
             throw new AuraHandledException(ex.getMessage());
         }
-
+        System.debug('PM.GPWUC lstRetVal.size(): '+lstRetVal.size());
+        lstRetVal.sort();
         return lstRetVal;
     }
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     @AuraEnabled
     public static void deleteProfileById(String pProfileId){
         SfdcRest.deleteProfile(pProfileId);
-    }
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-   //wrapper class
-   public class ProfileUserWrapper{
-    @AuraEnabled public String ProfileId; 
-    @AuraEnabled public String ProfileLink; 
-    @AuraEnabled public String ProfileName; 
-    @AuraEnabled public String CreatedDate;
-    @AuraEnabled public String CreatedBy;
-    @AuraEnabled public String CreatedByLink;
-    @AuraEnabled public Boolean IsCustom;
-    @AuraEnabled public String UserType;
-    @AuraEnabled public String UserLicense;
-    @AuraEnabled public String NumberOfActiveUsers;
-    @AuraEnabled public String NumberOfInactiveUsers;
-    @AuraEnabled public Boolean CanDelete;
-    @AuraEnabled public String deleteLink;
-    
-    Public ProfileUserWrapper (Profile pProfile, Boolean pIsCustom, string pActiveUserCount, string pInactiveUserCount){
-
-            this.ProfileId = pProfile.id;
-            this.ProfileLink = URL.getSalesforceBaseUrl().toExternalForm()+'/'+ pProfile.id;
-            this.ProfileName = pProfile.name;
-            this.CreatedDate = String.valueof(pProfile.Createddate);
-            this.CreatedBy = pProfile.CreatedBy.name;
-            this.CreatedByLink =  URL.getSalesforceBaseUrl().toExternalForm()+'/'+ pProfile.CreatedById;
-            this.IsCustom =  pIsCustom;
-            this.UserType =  pProfile.UserType;
-            this.UserLicense = pProfile.UserLicense.name;
-            if (pActiveUserCount!=null){
-                this.NumberOfActiveUsers = pActiveUserCount;
-            }else{
-                this.NumberOfActiveUsers ='0';
-            }
-            if (pInactiveUserCount!=null){
-                this.NumberOfInactiveUsers = pInactiveUserCount;
-            }else{
-                this.NumberOfInactiveUsers = '0';
-            }
-            if (this.NumberOfActiveUsers!='0' || this.NumberOfInactiveUsers!='0' || !this.IsCustom){
-                this.CanDelete = false;
-            }else{
-                this.CanDelete = true;
-            }
-            this.deleteLink = '/setup/own/deleteredirect.jsp?delID='+pProfile.id+'&retURL=%2F00e';
-            //so, the error I get is "The attempted delete was invalid for your session. Please refresh your page and try again."
-            
-        }
     }
 }
