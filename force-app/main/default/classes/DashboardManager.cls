@@ -1,5 +1,6 @@
 public inherited sharing class DashboardManager {
     //source: https://github.com/regarcher/MetadataMaid
+    //This code is part of a package and should not be called from your custom code
     //Per Salesforce: "Using inherited sharing enables you to pass AppExchange Security Review and ensure that your privileged Apex code is not used in unexpected or insecure ways."
     @AuraEnabled
     public static boolean deletePrivateDashboardsById(List<ID> pDashboardIds){
@@ -25,7 +26,7 @@ public inherited sharing class DashboardManager {
     public static List<PrivateDashboardWrapper> getInactiveUsersAndDashboardWrappersWithParams(String pSortField, String pSortOrder){
         List<PrivateDashboardWrapper> lstRetVal = new List<PrivateDashboardWrapper>();
         boolean pGetInactiveOnly = false;
-        String strSortOrderCleansed = SanitizeString(pSortOrder);
+        String strSortOrderCleansed = mdmUtilClass.SanitizeString(pSortOrder);
         String strSortField = convertColumnNameToDbName(pSortField);
         for (Dashboard myDB: getPrivateDashboardsInactiveUsers(strSortField, strSortOrderCleansed)){
             lstRetVal.add(new PrivateDashboardWrapper(myDB.Id, myDB.Title, String.valueof(myDB.lastModifiedDate), myDB.createdbyid, 
@@ -88,10 +89,5 @@ public inherited sharing class DashboardManager {
             this.ProfileName = pProfileName;
             this.LastLogin = pLastLogin;
         }
-    }
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    private static string SanitizeString(String pString){
-        String strRetVal = string.escapeSingleQuotes(pString);
-        return strRetVal.replaceAll('[^\\w]','');
     }
 }

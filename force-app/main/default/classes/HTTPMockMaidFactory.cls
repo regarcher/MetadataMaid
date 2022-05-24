@@ -1,5 +1,7 @@
 @isTest
 public class HTTPMockMaidFactory implements HttpCalloutMock {
+  //source: https://github.com/regarcher/MetadataMaid
+  //This code is part of a package and should not be called from your custom code
   protected Integer code;
   protected String status;
   protected String body;

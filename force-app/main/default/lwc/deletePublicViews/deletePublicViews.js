@@ -109,8 +109,6 @@ export default class DeletePublicViews extends LightningElement {
         
     }
     handleSortdata(event) {
-        //Thanks to the following web site for this pattern:
-        //https://www.salesforcecodecrack.com/2019/07/lightning-data-table-with-sorting.html
         let fieldName = event.detail.fieldName;
         let sortDirection = event.detail.sortDirection;
         //assign the values. This will trigger the wire method to reload.

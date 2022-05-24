@@ -1,5 +1,6 @@
 public with sharing class SelectUsersManager {
-
+  //source: https://github.com/regarcher/MetadataMaid
+  //This code is part of a package and should not be called from your custom code
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     @AuraEnabled
     public static List<UserWrapper> getUsersByProfileIds(String pProfileId, String pSortField, String pSortOrder){

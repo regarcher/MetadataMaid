@@ -1,4 +1,6 @@
 public with sharing class ProfileManager {
+    //source: https://github.com/regarcher/MetadataMaid
+    //This code is part of a package and should not be called from your custom code
     @AuraEnabled
     public static List<ProfileUserWrapper> getProfilesWithUserCounts(String pMode, String pSortField, String pSortOrder){
         //Note that none of the passed parameters are used in Soql statements

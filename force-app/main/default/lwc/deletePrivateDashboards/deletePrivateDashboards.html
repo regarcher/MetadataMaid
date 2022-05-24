@@ -8,12 +8,15 @@
             <div class="slds-m-bottom_small">
             <p><lightning-formatted-text value={recordCountMessage} ></lightning-formatted-text></p>
             </div>
-            <lightning-datatable data={dashboardList} columns={columns} 
+            <lightning-datatable 
+                data={dashboardList} 
+                columns={columns} 
                 key-field="DashboardId" 
                 onrowselection={processSelectedRecords}   
                 sorted-by={sortBy}
                 sorted-direction={sortDirection}
-                onsort={handleSortdata}>
+                onsort={handleSortdata}
+            >
             </lightning-datatable>
            
         </template>
