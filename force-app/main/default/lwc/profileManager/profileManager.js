@@ -58,8 +58,6 @@ export default class ProfileManager extends LightningElement {
      mode = 'Select Action';
      //unofficialSF
      confirmation;
-    //confirmModal support
-     displayMessage = 'Please select profile to be deleted';
     
      // non-reactive variables
      selectedRows;

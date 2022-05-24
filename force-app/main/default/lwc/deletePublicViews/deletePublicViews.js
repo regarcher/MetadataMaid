@@ -40,8 +40,6 @@ export default class DeletePublicViews extends LightningElement {
 
     //unofficialSF
     @track confirmation;
-    //confirmModal support
-    @track displayMessage = 'Please select view(s) to be deleted';
 
      // non-reactive variables
      selectedRecords = [];
