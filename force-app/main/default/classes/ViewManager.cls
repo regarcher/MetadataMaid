@@ -1,5 +1,6 @@
 public inherited sharing class ViewManager {
     //source: https://github.com/regarcher/MetadataMaid
+    //This code is part of a package and should not be called from your custom code
     //Per Salesforce: "Using inherited sharing enables you to pass AppExchange Security Review and ensure that your privileged Apex code is not used in unexpected or insecure ways."
 
     @AuraEnabled(cacheable=true)
